@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumAE.API", "src\QuantumAE.API\QuantumAE.API.csproj", "{C2E3627E-2ABD-46AE-9141-0617A0F76372}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumAE.CLI", "src\QuantumAE.CLI\QuantumAE.CLI.csproj", "{8332B920-B14B-49EC-92F4-D1C3748F28AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{C2E3627E-2ABD-46AE-9141-0617A0F76372}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2E3627E-2ABD-46AE-9141-0617A0F76372}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2E3627E-2ABD-46AE-9141-0617A0F76372}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8332B920-B14B-49EC-92F4-D1C3748F28AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8332B920-B14B-49EC-92F4-D1C3748F28AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8332B920-B14B-49EC-92F4-D1C3748F28AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8332B920-B14B-49EC-92F4-D1C3748F28AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
