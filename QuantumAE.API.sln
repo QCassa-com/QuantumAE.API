@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumAE.API", "QuantumAE.API\QuantumAE.API.csproj", "{C2E3627E-2ABD-46AE-9141-0617A0F76372}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumAE.API", "src\QuantumAE.API\QuantumAE.API.csproj", "{C2E3627E-2ABD-46AE-9141-0617A0F76372}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
