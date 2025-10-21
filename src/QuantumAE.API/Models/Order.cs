@@ -60,7 +60,14 @@ public interface ICloseBase : IRequest
     /// <br/>
     /// en: Unique identifier of the order to be closed in the Tax Unit
     /// </summary>
-    int OrderId { get; init; }
+    string OrderId { get; init; }
+    
+    /// <summary>
+    /// hu: Az lezáráskor keletkező dokumentum egyedi azonosítója (ReceipId, InvoiceId, ReturnInvoiceId, StornoId, stb.)
+    /// <br />
+    /// en: Unique identifier of the document generated after the close (ReceipId, InvoiceId, ReturnInvoiceId, StornoId, stb.)
+    /// </summary>
+    string DocumentId { get; init; }
 }
 
 // ====================================================================
@@ -78,35 +85,7 @@ public interface ICloseBase : IRequest
 ///  en: Unique identifier of the request
 /// </param>
 [PublicAPI]
-public sealed record TOpenRequest(string RequestId) : IRequest;
-
-/// <summary>
-/// hu: Bizonylat nyitási válasz
-/// <br/>
-/// en: Document opening response
-/// </summary>
-/// <param name="RequestId">
-///  hu: Kérés egyedi azonosítója
-///  <br/>
-///  en: Unique identifier of the request
-/// </param>
-/// <param name="ResultCode">
-///  hu: Eredménykód (0 = siker), különben hiba kód
-///  <br/>
-///  en: Result code (0 = success), otherwise error code
-/// </param>
-/// <param name="OrderId">
-///  hu: Rendelés egyedi azonosítója
-///  <br/>
-///  en: Unique identifier of the order
-/// </param>
-/// <param name="OpenedAt">
-///  hu: A rendelés megnyitásának időpontja
-///  <br/>
-///  en: Timestamp of the order opening
-/// </param>
-[PublicAPI]
-public sealed record TOpenResponse(string RequestId, int ResultCode, int OrderId, DateTime OpenedAt) : IResponse;
+public sealed record TOrderOpen(string RequestId, string OrderId) : IRequest;
 
 /// <summary>
 /// hu: Tétel hozzáadási kérés
@@ -129,35 +108,7 @@ public sealed record TOpenResponse(string RequestId, int ResultCode, int OrderId
 ///  en: Data of the item to be added
 /// </param>
 [PublicAPI]
-public sealed record TItemAddRequest(string RequestId, int OrderId, TOrderItem Item) : IRequest;
-
-/// <summary>
-/// hu: Tétel hozzáadási válasz
-/// <br/>
-/// en: Item addition response
-/// </summary>
-/// <param name="RequestId">
-///  hu: Kérés egyedi azonosítója
-///  <br/>
-///  en: Unique identifier of the request
-/// </param>
-/// <param name="ResultCode">
-///  hu: Eredménykód (0 = siker), különben hiba kód
-///  <br/>
-///  en: Result code (0 = success), otherwise error code
-/// </param>
-/// <param name="OrderId">
-///  hu: Rendelés egyedi azonosítója
-///  <br/>
-///  en: Unique identifier of the order
-/// </param>
-/// <param name="AddAt">
-///  hu: A tétel hozzáadásának időpontja
-///  <br/>
-///  en: Timestamp of the item addition
-/// </param>
-[PublicAPI]
-public sealed record  TItemAddResponse(string RequestId, int ResultCode, int OrderId, DateTime AddAt): IResponse;
+public sealed record TOrderItemAdd(string RequestId, string OrderId, TOrderItem Item) : IRequest;
 
 /// <summary>
 ///  hu: Rendelés tétel adatai
@@ -449,8 +400,8 @@ public sealed record TDocumentClose(DateTime CloseAt);
 ///  en: Receipt type (if any)
 /// </param>
 [PublicAPI]
-public sealed record TCloseReceiptRequest(
-    string RequestId, int OrderId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral,
+public sealed record TOrderCloseToReceipt(
+    string RequestId, string OrderId, string DocumentId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral,
     TPay Pay, bool? Cut, int? Retraction, TReceiptType? ReceiptType
 ) : ICloseBase;
 
@@ -501,7 +452,7 @@ public sealed record TCloseReceiptRequest(
 /// </param>
 [PublicAPI]
 public sealed record TCloseInvoiceRequest(
-    string RequestId, int OrderId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral,
+    string RequestId, string OrderId, string DocumentId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral,
     TPay Pay, TCustomer Customer, bool Cut, int Retraction
 ) : ICloseBase;
 
@@ -557,7 +508,7 @@ public sealed record TCloseInvoiceRequest(
 /// </param>
 [PublicAPI]
 public sealed record TCloseReturnRequest(
-    string RequestId, int OrderId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral,
+    string RequestId, string OrderId, string DocumentId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral,
     TPay Pay, TCustomer Customer, TReturnInfo ReturnInfo, bool Cut, int Retraction
 ) : ICloseBase;
 
@@ -613,7 +564,7 @@ public sealed record TCloseReturnRequest(
 /// </param>
 [PublicAPI]
 public sealed record TCloseStornoRequest(
-    string RequestId, int OrderId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral,
+    string RequestId, string OrderId, string DocumentId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral,
     TPay Pay, TCustomer Customer, TStornoInfo StornoInfo, bool Cut, int Retraction
 ) : ICloseBase;
 
@@ -659,7 +610,7 @@ public sealed record TCloseStornoRequest(
 /// </param>
 [PublicAPI]
 public sealed record TCloseEmptiesRequest(
-    string RequestId, int OrderId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral,
+    string RequestId, string OrderId, string DocumentId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral,
     TPay Pay, bool Cut, int Retraction
 ) : ICloseBase;
 
@@ -695,7 +646,7 @@ public sealed record TCloseEmptiesRequest(
 /// </param>
 [PublicAPI]
 public sealed record TCloseSummaryRequest(
-    string RequestId, int OrderId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral, TNonFiscalRows NonFiscalRows
+    string RequestId, string OrderId, string DocumentId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral, TNonFiscalRows NonFiscalRows
 ) : ICloseBase;
 
 /// <summary>
@@ -745,7 +696,7 @@ public sealed record TCloseSummaryRequest(
 /// </param>
 [PublicAPI]
 public sealed record TCloseFuelCardRequest(
-    string RequestId, int OrderId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral,
+    string RequestId, string OrderId, string DocumentId, TCloseMethod CloseMethod, TDocumentGeneral DocumentGeneral,
     TFuelCardClose FuelCardClose, TCustomer Customer, bool Cut, int Retraction
 ) : ICloseBase;
 
