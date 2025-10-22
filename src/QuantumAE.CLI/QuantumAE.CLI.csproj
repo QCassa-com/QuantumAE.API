@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\QuantumAE.API\QuantumAE.API.csproj" />
+      <ProjectReference Include="..\QuantumAE.API.Client\QuantumAE.API.Client.csproj" />
     </ItemGroup>
 
 </Project>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using Spectre.Console;
 using QuantumAE.Models;
+using QuantumAE.API.Client;
 
 
 static int ShowRootHelp()
@@ -25,6 +26,8 @@ static int ShowRootHelp()
     AnsiConsole.MarkupLine("  qae connect --url <base-url>");
     AnsiConsole.MarkupLine("  qae disconnect");
     AnsiConsole.MarkupLine("  qae device --info");
+    AnsiConsole.MarkupLine("  qae order open --order <ORDER_ID> [--request <REQ_ID>]");
+    AnsiConsole.MarkupLine("  qae order item --order <ORDER_ID> --name <NAME> --article <SKU> --unit <UNIT> --price <PRICE> --qty <QTY> [--cat <CAT>] [--dept <DEPT>]");
     AnsiConsole.WriteLine();
     AnsiConsole.MarkupLine("Commands:");
     var grid = new Grid();
@@ -33,6 +36,7 @@ static int ShowRootHelp()
     grid.AddRow("connect", "Kapcsolódás az API-hoz / Connect to API");
     grid.AddRow("disconnect", "Kapcsolat megszüntetése / Disconnect");
     grid.AddRow("device", "Eszköz műveletek / Device operations");
+    grid.AddRow("order", "Rendelés műveletek (open, item) / Order operations");
     AnsiConsole.Write(grid);
     return 0;
 }
@@ -94,65 +98,23 @@ static int HandleConnect(string[] args)
         return 2;
     }
 
-    // Probe /device/
     var baseUrl = url.TrimEnd('/');
-    var probeUrl = baseUrl + "/device/";
 
     try
     {
-        using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
-        using var req = new HttpRequestMessage(HttpMethod.Get, probeUrl);
-        using var res = client.Send(req);
+        // Statikus API kliens inicializálása és próba hívás
+        TApiClientHolder.Configure(baseUrl, ResolveFormat());
+        var info = TApiClientHolder.Require().DeviceInfoAsync().GetAwaiter().GetResult();
 
-        if ((int)res.StatusCode >= 200 && (int)res.StatusCode < 300)
+        ConnectionStore.SaveUrl(baseUrl);
+        AnsiConsole.MarkupLine($"[green]Sikeres kapcsolat / Connected:[/] {baseUrl}");
+
+        if (!string.IsNullOrWhiteSpace(info?.ApNumber))
         {
-            ConnectionStore.SaveUrl(baseUrl);
-            AnsiConsole.MarkupLine($"[green]Sikeres kapcsolat / Connected:[/] {baseUrl}");
-
-            // Try to read AP number from the device info and show it
-            try
-            {
-                string? apNumber = null;
-                var opts = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
-                // attempt parse from the probe response
-                var body = res.Content?.ReadAsStringAsync().GetAwaiter().GetResult();
-                if (!string.IsNullOrWhiteSpace(body) && body.TrimStart().StartsWith("{", StringComparison.Ordinal))
-                {
-                    var info = System.Text.Json.JsonSerializer.Deserialize<TDeviceInfo>(body, opts);
-                    apNumber = info?.ApNumber;
-                }
-
-                // fallback to /device/info
-                if (string.IsNullOrWhiteSpace(apNumber))
-                {
-                    using var reqInfo = new HttpRequestMessage(HttpMethod.Get, baseUrl + "/device/info");
-                    using var resInfo = client.Send(reqInfo);
-                    if ((int)resInfo.StatusCode >= 200 && (int)resInfo.StatusCode < 300)
-                    {
-                        var infoBody = resInfo.Content?.ReadAsStringAsync().GetAwaiter().GetResult();
-                        if (!string.IsNullOrWhiteSpace(infoBody))
-                        {
-                            var info2 = System.Text.Json.JsonSerializer.Deserialize<TDeviceInfo>(infoBody, opts);
-                            apNumber = info2?.ApNumber;
-                        }
-                    }
-                }
-
-                if (!string.IsNullOrWhiteSpace(apNumber))
-                {
-                    AnsiConsole.MarkupLine($"[blue]AP szám:[/] {apNumber}");
-                }
-            }
-            catch
-            {
-                // ignore, do not fail connect if AP retrieval fails
-            }
-
-            return 0;
+            AnsiConsole.MarkupLine($"[blue]AP szám:[/] {info.ApNumber}");
         }
-        AnsiConsole.MarkupLine($"[red]Sikertelen kapcsolat. HTTP { (int)res.StatusCode }[/]");
-        return 3;
+
+        return 0;
     }
     catch (Exception ex)
     {
@@ -172,18 +134,158 @@ static int HandleDevice(string[] args)
 {
     if (args.Contains("--info", StringComparer.OrdinalIgnoreCase))
     {
-        // In a real implementation, these details would be queried from the device/API.
-        var info = new TDeviceInfo("AP-0000001");
+        try
+        {
+            var info = TApiClientHolder.Require().DeviceInfoAsync().GetAwaiter().GetResult();
 
-        var table = new Table().Border(TableBorder.Rounded).Title("[bold]Device Info[/]");
-        table.AddColumn("Field");
-        table.AddColumn("Value");
-        table.AddRow("ApNumber", info.ApNumber);
-        AnsiConsole.Write(table);
-        return 0;
+            var table = new Table().Border(TableBorder.Rounded).Title("[bold]Device Info[/]");
+            table.AddColumn("Field");
+            table.AddColumn("Value");
+            table.AddRow("ApNumber", info.ApNumber);
+            AnsiConsole.Write(table);
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            AnsiConsole.MarkupLine("[red]Nem sikerült lekérdezni az eszköz információkat:[/] " + ex.Message);
+            return 5;
+        }
     }
 
     return ShowDeviceHelp();
+}
+
+static int ShowOrderHelp()
+{
+    AnsiConsole.MarkupLine("[bold]qae order[/]");
+    AnsiConsole.WriteLine();
+    AnsiConsole.MarkupLine("Usage:");
+    AnsiConsole.MarkupLine("  qae order open --order <ORDER_ID> [--request <REQ_ID>]");
+    AnsiConsole.MarkupLine("  qae order item --order <ORDER_ID> --name <NAME> --article <SKU> --unit <UNIT> --price <PRICE> --qty <QTY> [--cat <CAT>] [--dept <DEPT>]");
+    AnsiConsole.WriteLine();
+    return 2;
+}
+
+static TApiFormat ResolveFormat()
+{
+    var env = Environment.GetEnvironmentVariable("QUANTUMAE__API__FORMAT");
+    if (string.IsNullOrWhiteSpace(env)) return TApiFormat.Json;
+    var v = env.Trim().ToLowerInvariant();
+    return v switch
+    {
+        "json" => TApiFormat.Json,
+        "application/json" => TApiFormat.Json,
+        "messagepack" => TApiFormat.MessagePack,
+        "msgpack" => TApiFormat.MessagePack,
+        "application/msgpack" => TApiFormat.MessagePack,
+        "application/x-msgpack" => TApiFormat.MessagePack,
+        _ => TApiFormat.Json
+    };
+}
+
+static int HandleOrder(string[] args)
+{
+    if (args.Length == 0) return ShowOrderHelp();
+
+    var baseUrl = ConnectionStore.LoadUrl();
+    if (string.IsNullOrWhiteSpace(baseUrl))
+    {
+        AnsiConsole.MarkupLine("[red]Nincs beállított kapcsolat. Futtasd:[/] qae connect --url http://127.0.0.1:9090");
+        return 2;
+    }
+
+    var sub = args[0].ToLowerInvariant();
+    var rest = args.Skip(1).ToArray();
+
+    // Biztosítsuk, hogy a statikus kliens a tárolt URL-lel inicializálva legyen
+    TApiClientHolder.Configure(baseUrl!, ResolveFormat());
+    var client = TApiClientHolder.Require();
+
+    string? GetOpt(string name)
+    {
+        for (int i = 0; i < rest.Length; i++)
+        {
+            var a = rest[i];
+            if (a.Equals(name, StringComparison.OrdinalIgnoreCase))
+            {
+                if (i + 1 < rest.Length) return rest[i + 1];
+                return null;
+            }
+            if (a.StartsWith(name + "=", StringComparison.OrdinalIgnoreCase))
+            {
+                return a.Substring(name.Length + 1);
+            }
+        }
+        return null;
+    }
+
+    try
+    {
+        switch (sub)
+        {
+            case "open":
+            {
+                var orderId = GetOpt("--order");
+                if (string.IsNullOrWhiteSpace(orderId))
+                {
+                    AnsiConsole.MarkupLine("[red]Hiányzó --order paraméter.[/]");
+                    return ShowOrderHelp();
+                }
+                var reqId = GetOpt("--request") ?? Guid.NewGuid().ToString("N");
+                var req = new TOrderOpen(reqId, orderId!);
+                var res = client.OpenAsync(req).GetAwaiter().GetResult();
+                AnsiConsole.MarkupLine($"[green]Open OK[/] RequestId={res.RequestId}, ResultCode={res.ResultCode}");
+                return 0;
+            }
+            case "item":
+            {
+                var orderId = GetOpt("--order");
+                var name = GetOpt("--name");
+                var article = GetOpt("--article");
+                var unit = GetOpt("--unit");
+                var priceStr = GetOpt("--price");
+                var qtyStr = GetOpt("--qty");
+                var cat = GetOpt("--cat") ?? string.Empty;
+                var dept = GetOpt("--dept") ?? string.Empty;
+
+                if (string.IsNullOrWhiteSpace(orderId) || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(article) || string.IsNullOrWhiteSpace(unit) || string.IsNullOrWhiteSpace(priceStr) || string.IsNullOrWhiteSpace(qtyStr))
+                {
+                    AnsiConsole.MarkupLine("[red]Hiányzó kötelező paraméter. Lásd: qae order --help[/]");
+                    return ShowOrderHelp();
+                }
+
+                if (!decimal.TryParse(priceStr, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out var price))
+                {
+                    AnsiConsole.MarkupLine("[red]Érvénytelen --price érték (decimális számot vár).[/]");
+                    return 2;
+                }
+                if (!decimal.TryParse(qtyStr, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out var qty))
+                {
+                    AnsiConsole.MarkupLine("[red]Érvénytelen --qty érték (decimális számot vár).[/]");
+                    return 2;
+                }
+
+                var reqId = Guid.NewGuid().ToString("N");
+                var item = new TOrderItem(name!, article!, unit!, price, qty, cat, dept);
+                var req = new TOrderItemAdd(reqId, orderId!, item);
+                var res = client.ItemAddAsync(req).GetAwaiter().GetResult();
+                AnsiConsole.MarkupLine($"[green]Item added[/] RequestId={res.RequestId}, ResultCode={res.ResultCode}");
+                return 0;
+            }
+            case "--help":
+            case "-h":
+            case "help":
+                return ShowOrderHelp();
+            default:
+                AnsiConsole.MarkupLine($"[red]Ismeretlen alparancs:[/] {sub}");
+                return ShowOrderHelp();
+        }
+    }
+    catch (Exception ex)
+    {
+        AnsiConsole.MarkupLine("[red]Hiba:[/] " + ex.Message);
+        return 10;
+    }
 }
 
 int exitCode;
@@ -205,6 +307,9 @@ else
             break;
         case "device":
             exitCode = HandleDevice(rest);
+            break;
+        case "order":
+            exitCode = HandleOrder(rest);
             break;
         case "-h":
         case "--help":
