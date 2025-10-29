@@ -19,4 +19,4 @@ namespace QuantumAE.Models;
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
 [PublicAPI]
-public sealed record TApiResult(string RequestId, int ResultCode): IResponse;
+public sealed record TApiResult(string RequestId, int ResultCode, string Message): IResponse;

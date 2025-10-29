@@ -20,7 +20,7 @@ namespace QuantumAE.Models;
 ///   en: Unique identifier of the request
 /// </param>
 [PublicAPI]
-public sealed record TOrderOpen(string RequestId, string OrderId) : IRequest;
+public sealed record TOrderOpenRequest(string RequestId, string OrderId) : IRequest;
 
 /// <summary>
 ///   hu: Rendelés nyitási válasz
@@ -66,7 +66,7 @@ public sealed record TOrderOpenResponse(string RequestId, int ResultCode, string
 ///   en: Data of the item to be added
 /// </param>
 [PublicAPI]
-public sealed record TOrderItemAdd(string RequestId, string OrderId, TOrderItem Item) : IRequest;
+public sealed record TOrderItemsAddRequest(string RequestId, string OrderId, TOrderItem Item) : IRequest;
 
 /// <summary>
 ///   hu: Rendelés tétel adatai
@@ -304,7 +304,7 @@ public enum TCloseMethod
 ///   en: Close data (if the operation is successful)
 /// </param>
 [PublicAPI]
-public sealed record TCloseResponse(string RequestId, int ResultCode, TDocumentClose? DocumentClose) : IResponse;
+public sealed record TOrderCloseResponse(string RequestId, int ResultCode, TDocumentClose? DocumentClose) : IResponse;
 
 /// <summary>
 ///   hu: Zárási adatok. CloseAt: a zárás időpontja az Adóügyi Egység órája szerint.
@@ -367,7 +367,7 @@ public sealed record TDocumentClose(DateTime CloseAt);
 ///   en: Receipt type (if any)
 /// </param>
 [PublicAPI]
-public sealed record TOrderCloseToReceipt(
+public sealed record TOrderCloseToReceiptRequest(
   string RequestId,
   string OrderId,
   string DocumentId,
@@ -425,7 +425,7 @@ public sealed record TOrderCloseToReceipt(
 ///   en: Number of retraction lines
 /// </param>
 [PublicAPI]
-public sealed record TCloseInvoiceRequest(
+public sealed record TOrderCloseToInvoiceRequest(
   string RequestId,
   string OrderId,
   string DocumentId,
@@ -488,7 +488,7 @@ public sealed record TCloseInvoiceRequest(
 ///   en: Number of retraction lines
 /// </param>
 [PublicAPI]
-public sealed record TCloseReturnRequest(
+public sealed record TOrderCloseToReturnRequest(
   string RequestId,
   string OrderId,
   string DocumentId,
@@ -552,7 +552,7 @@ public sealed record TCloseReturnRequest(
 ///   en: Number of retraction lines
 /// </param>
 [PublicAPI]
-public sealed record TCloseStornoRequest(
+public sealed record TOrderCloseToStornoRequest(
   string RequestId,
   string OrderId,
   string DocumentId,
@@ -606,7 +606,7 @@ public sealed record TCloseStornoRequest(
 ///   en: Number of retraction lines
 /// </param>
 [PublicAPI]
-public sealed record TCloseEmptiesRequest(
+public sealed record TOrderCloseToEmptiesRequest(
   string RequestId,
   string OrderId,
   string DocumentId,
@@ -648,7 +648,7 @@ public sealed record TCloseEmptiesRequest(
 ///   en: Non-fiscal (informational) rows
 /// </param>
 [PublicAPI]
-public sealed record TCloseSummaryRequest(
+public sealed record TOrderCloseToSummaryRequest(
   string RequestId,
   string OrderId,
   string DocumentId,
@@ -703,7 +703,7 @@ public sealed record TCloseSummaryRequest(
 ///   en: Number of retraction lines
 /// </param>
 [PublicAPI]
-public sealed record TCloseFuelCardRequest(
+public sealed record TOrderCloseToFuelCardRequest(
   string RequestId,
   string OrderId,
   string DocumentId,
@@ -815,7 +815,7 @@ public sealed record TGetIdsResponse(string RequestId, int ResultCode, int Count
 ///   en: Unique identifier of the order
 /// </param>
 [PublicAPI]
-public sealed record TGetItemsRequest(string RequestId, int OrderId) : IRequest;
+public sealed record TGetOrderItemsRequest(string RequestId, int OrderId) : IRequest;
 
 /// <summary>
 ///   hu: GetItems válasz
@@ -838,7 +838,7 @@ public sealed record TGetItemsRequest(string RequestId, int OrderId) : IRequest;
 ///   en: Sell items (on success)
 /// </param>
 [PublicAPI]
-public sealed record TGetItemsResponse(string RequestId, int ResultCode, TSellItems? SellItems) : IResponse;
+public sealed record TGetOrderItemsResponse(string RequestId, int ResultCode, TSellItems? SellItems) : IResponse;
 
 /// <summary>
 ///   hu: Eladási tételek

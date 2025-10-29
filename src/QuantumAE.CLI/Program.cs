@@ -232,7 +232,7 @@ static int HandleOrder(string[] args)
                     return ShowOrderHelp();
                 }
                 var reqId = GetOpt("--request") ?? Guid.NewGuid().ToString("N");
-                var req = new TOrderOpen(reqId, orderId!);
+                var req = new TOrderOpenRequest(reqId, orderId!);
                 var res = client.OpenAsync(req).GetAwaiter().GetResult();
                 AnsiConsole.MarkupLine($"[green]Open OK[/] RequestId={res.RequestId}, ResultCode={res.ResultCode}");
                 return 0;
@@ -267,7 +267,7 @@ static int HandleOrder(string[] args)
 
                 var reqId = Guid.NewGuid().ToString("N");
                 var item = new TOrderItem(name!, article!, unit!, price, qty, cat, dept);
-                var req = new TOrderItemAdd(reqId, orderId!, item);
+                var req = new TOrderItemsAddRequest(reqId, orderId!, item);
                 var res = client.ItemAddAsync(req).GetAwaiter().GetResult();
                 AnsiConsole.MarkupLine($"[green]Item added[/] RequestId={res.RequestId}, ResultCode={res.ResultCode}");
                 return 0;
