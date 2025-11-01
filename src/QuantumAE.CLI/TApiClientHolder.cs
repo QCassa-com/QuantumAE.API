@@ -1,4 +1,4 @@
-using QuantumAE.API.Client;
+namespace QuantumAE;
 
 static class TApiClientHolder
 {

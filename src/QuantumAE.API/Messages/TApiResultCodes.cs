@@ -1,4 +1,4 @@
-namespace QuantumAE.Webservices;
+namespace QuantumAE.Messages;
 
 /// <summary>
 ///  hu: API válaszkódok konstansokat tartalmazó osztály
@@ -13,8 +13,15 @@ public class TApiResultCodes
   ///  en: Order operation successful
   /// </summary>
   public const int OrderResult = 0x100;
+  public const int ControlResult = 0x200;
 }
 
+public enum TControlResult
+{
+  Success,
+  SessionNotFound = TApiResultCodes.ControlResult,
+  SessionInvalid
+}
 
 public enum TOrderResult
 {

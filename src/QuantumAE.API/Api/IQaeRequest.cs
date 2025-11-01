@@ -8,7 +8,7 @@ namespace QuantumAE.Api;
 /// en: Interface describing common request fields (style per sample).
 /// </summary>
 [PublicAPI]
-public interface IRequest
+public interface IQaeRequest
 {
   /// <summary>
   /// hu: Kérés egyedi azonosítója

@@ -1,11 +1,11 @@
 ﻿using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
 using MessagePack;
 using MessagePack.Resolvers;
+using QuantumAE.Api.Orders;
 using QuantumAE.Models;
 
-namespace QuantumAE.API.Client;
+namespace QuantumAE;
 
 public enum TApiFormat
 {
@@ -49,11 +49,11 @@ public sealed class TQuantumAeApiClient : IDisposable
     FHttp.Dispose();
   }
 
-  public async Task<TApiResult> OpenAsync(TOrderOpenRequest ARequest, CancellationToken ct = default)
-    => await PostAsync<TOrderOpenRequest, TApiResult>("/orders/open", ARequest, ct).ConfigureAwait(false);
+  public async Task<TApiResult> OpenAsync(TOrderOpenQaeRequest AQaeRequest, CancellationToken ct = default)
+    => await PostAsync<TOrderOpenQaeRequest, TApiResult>("/orders/open", AQaeRequest, ct).ConfigureAwait(false);
 
-  public async Task<TApiResult> ItemAddAsync(TOrderItemsAddRequest ARequest, CancellationToken ct = default)
-    => await PostAsync<TOrderItemsAddRequest, TApiResult>("/orders/items", ARequest, ct).ConfigureAwait(false);
+  public async Task<TApiResult> ItemAddAsync(TOrderItemsAddQaeRequest AQaeRequest, CancellationToken ct = default)
+    => await PostAsync<TOrderItemsAddQaeRequest, TApiResult>("/orders/items", AQaeRequest, ct).ConfigureAwait(false);
 
   private async Task<TResponse> PostAsync<TRequest, TResponse>(string path, TRequest payload, CancellationToken ct)
   {

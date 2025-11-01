@@ -1,12 +1,11 @@
 using JetBrains.Annotations;
-using QuantumAE.Api;
 
-namespace QuantumAE.Models;
+namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: QuantumAE API általános válasz rekord
+///   hu: Egyszerű státusz válasz
 ///   <br />
-///   en: General response record of QuantumAE API
+///   en: Simple acknowledgment response
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -19,4 +18,4 @@ namespace QuantumAE.Models;
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
 [PublicAPI]
-public sealed record TApiResult(string RequestId, int ResultCode) : IQaeResponse;
+public sealed record TSimpleAckQaeResponse(string RequestId, int ResultCode) : IQaeResponse;

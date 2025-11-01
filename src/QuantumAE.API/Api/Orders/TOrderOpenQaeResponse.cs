@@ -1,12 +1,9 @@
-using JetBrains.Annotations;
-using QuantumAE.Api;
-
-namespace QuantumAE.Models;
+namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: QuantumAE API általános válasz rekord
+///   hu: Rendelés nyitási válasz
 ///   <br />
-///   en: General response record of QuantumAE API
+///   en: Order opening response
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -18,5 +15,9 @@ namespace QuantumAE.Models;
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
-[PublicAPI]
-public sealed record TApiResult(string RequestId, int ResultCode) : IQaeResponse;
+/// <param name="OrderId">
+///   hu: Rendelés egyedi azonosítója
+///   <br />
+///   en: Unique identifier of the order
+/// </param>
+public sealed record TOrderOpenQaeResponse(string RequestId, int ResultCode, string OrderId) : IQaeResponse;

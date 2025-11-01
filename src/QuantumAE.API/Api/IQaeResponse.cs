@@ -8,7 +8,7 @@ namespace QuantumAE.Api;
 ///   en: Record describing common response fields (style per sample).
 /// </summary>
 [PublicAPI]
-public interface IResponse
+public interface IQaeResponse
 {
   /// <summary>
   ///   hu: Kérés egyedi azonosítója

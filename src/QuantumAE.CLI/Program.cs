@@ -1,11 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
+﻿using QuantumAE;
+using QuantumAE.Api.Orders;
 using Spectre.Console;
-using QuantumAE.Models;
-using QuantumAE.API.Client;
-
 
 static int ShowRootHelp()
 {
@@ -71,6 +66,7 @@ static int HandleConnect(string[] args)
 {
     // Parse --url
     string? url = null;
+
     for (int i = 0; i < args.Length; i++)
     {
         var a = args[i];
@@ -232,7 +228,7 @@ static int HandleOrder(string[] args)
                     return ShowOrderHelp();
                 }
                 var reqId = GetOpt("--request") ?? Guid.NewGuid().ToString("N");
-                var req = new TOrderOpenRequest(reqId, orderId!);
+                var req = new TOrderOpenQaeRequest(reqId, orderId!);
                 var res = client.OpenAsync(req).GetAwaiter().GetResult();
                 AnsiConsole.MarkupLine($"[green]Open OK[/] RequestId={res.RequestId}, ResultCode={res.ResultCode}");
                 return 0;
@@ -267,7 +263,7 @@ static int HandleOrder(string[] args)
 
                 var reqId = Guid.NewGuid().ToString("N");
                 var item = new TOrderItem(name!, article!, unit!, price, qty, cat, dept);
-                var req = new TOrderItemsAddRequest(reqId, orderId!, item);
+                var req = new TOrderItemsAddQaeRequest(reqId, orderId!, item);
                 var res = client.ItemAddAsync(req).GetAwaiter().GetResult();
                 AnsiConsole.MarkupLine($"[green]Item added[/] RequestId={res.RequestId}, ResultCode={res.ResultCode}");
                 return 0;
@@ -297,6 +293,7 @@ else
 {
     var command = args[0];
     var rest = args.Skip(1).ToArray();
+
     switch (command.ToLowerInvariant())
     {
         case "connect":
@@ -325,37 +322,40 @@ else
 
 return exitCode;
 
-static class ConnectionStore
+namespace QuantumAE
 {
-    private static string ConfigDir()
+    static class ConnectionStore
     {
-        var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        return Path.Combine(home, ".qae");
-    }
-
-    private static string StorePath() => Path.Combine(ConfigDir(), "connection.txt");
-
-    public static string? LoadUrl()
-    {
-        var path = StorePath();
-        if (File.Exists(path))
+        private static string ConfigDir()
         {
-            var url = File.ReadAllText(path).Trim();
-            return string.IsNullOrWhiteSpace(url) ? null : url;
+            var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            return Path.Combine(home, ".qae");
         }
-        return null;
-    }
 
-    public static void SaveUrl(string url)
-    {
-        var dir = ConfigDir();
-        if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-        File.WriteAllText(StorePath(), url.Trim());
-    }
+        private static string StorePath() => Path.Combine(ConfigDir(), "connection.txt");
 
-    public static void Clear()
-    {
-        var path = StorePath();
-        if (File.Exists(path)) File.Delete(path);
+        public static string? LoadUrl()
+        {
+            var path = StorePath();
+            if (File.Exists(path))
+            {
+                var url = File.ReadAllText(path).Trim();
+                return string.IsNullOrWhiteSpace(url) ? null : url;
+            }
+            return null;
+        }
+
+        public static void SaveUrl(string url)
+        {
+            var dir = ConfigDir();
+            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+            File.WriteAllText(StorePath(), url.Trim());
+        }
+
+        public static void Clear()
+        {
+            var path = StorePath();
+            if (File.Exists(path)) File.Delete(path);
+        }
     }
 }
