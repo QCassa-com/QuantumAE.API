@@ -20,7 +20,8 @@ public enum TControlResult
 {
   Success,
   SessionNotFound = TApiResultCodes.ControlResult,
-  SessionInvalid
+  SessionInvalid,
+  InternalError
 }
 
 public enum TOrderResult
