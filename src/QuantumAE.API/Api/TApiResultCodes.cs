@@ -1,4 +1,4 @@
-namespace QuantumAE.Messages;
+namespace QuantumAE.Api;
 
 /// <summary>
 ///  hu: API válaszkódok konstansokat tartalmazó osztály
@@ -12,8 +12,9 @@ public class TApiResultCodes
   ///  <br />
   ///  en: Order operation successful
   /// </summary>
-  public const int OrderResult = 0x100;
-  public const int ControlResult = 0x200;
+  public const int OrderResult = 0x1000;
+  public const int ControlResult = 0x2000;
+  public const int DeviceResult = 0x3000;
 }
 
 public enum TControlResult
@@ -32,3 +33,10 @@ public enum TOrderResult
   Empty,
   Closed
 } 
+
+public enum TDeviceResult
+{
+  Success,
+  DeviceNotFound = TApiResultCodes.DeviceResult,
+  InternalError
+}

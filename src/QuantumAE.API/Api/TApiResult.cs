@@ -1,7 +1,6 @@
 using JetBrains.Annotations;
-using QuantumAE.Api;
 
-namespace QuantumAE.Models;
+namespace QuantumAE.Api;
 
 /// <summary>
 ///   hu: QuantumAE API általános válasz rekord
