@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using QuantumAE.Models;
 
 namespace QuantumAE.Api.Orders;
 

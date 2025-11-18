@@ -12,7 +12,10 @@ namespace QuantumAE.Api.Device;
 ///   <br />
 ///   en: Unique identifier of the request
 /// </param>
-public record GetLedStatusRequest(string RequestId) : IQaeRequest;
+/// <remarks>
+///   GET /device/getDateTime?RequestId={ARequestId}
+/// </remarks>
+public record GetLedStatusRequest(string RequestId) : IDeviceRequest;
 
 /// <summary>
 ///   hu: LED-ek állapotának lekérdezése válasz
@@ -34,4 +37,4 @@ public record GetLedStatusRequest(string RequestId) : IQaeRequest;
 ///   <br />
 ///   en: List of LED states
 /// </param>
-public record GetLedStatusResponse(string RequestId, int ResultCode, TLedState[] LedStatus) : IQaeResponse;
+public record GetLedStatusResponse(string RequestId, int ResultCode, TLedState[] LedStatus) : IDeviceResponse;
