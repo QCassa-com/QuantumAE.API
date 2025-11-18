@@ -4,9 +4,9 @@ using QuantumAE.Models;
 namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: Zárási kérés – Sztornó számla
+///   hu: Rendelés zárása göngyölegjegyként
 ///   <br />
-///   en: Close request – Storno invoice
+///   en: Order close as empties receipt
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -33,16 +33,6 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Payment info
 /// </param>
-/// <param name="Customer">
-///   hu: Vevő adatai
-///   <br />
-///   en: Customer data
-/// </param>
-/// <param name="StornoInfo">
-///   hu: Sztornó adatai
-///   <br />
-///   en: Storno information
-/// </param>
 /// <param name="Cut">
 ///   hu: Vágás jelzése
 ///   <br />
@@ -54,7 +44,7 @@ namespace QuantumAE.Api.Orders;
 ///   en: Number of retraction lines
 /// </param>
 [PublicAPI]
-public sealed record TOrderCloseToStornoRequest(
+public sealed record OrderCloseToEmptiesRequest(
   string RequestId,
   int ResultCode,
   string OrderId,
@@ -62,8 +52,27 @@ public sealed record TOrderCloseToStornoRequest(
   TCloseMethod CloseMethod,
   TDocumentGeneral DocumentGeneral,
   TPay Pay,
-  TCustomer Customer,
-  TStornoInfo StornoInfo,
   bool Cut,
   int Retraction
-) : IQaeResponse;
+) : IOrderRequest;
+
+
+/// <summary>
+///   hu: Rendelés zárása göngyölegjegyként válasz
+///   <br />
+///   en: Order close as empties receipt response
+/// </summary>
+/// <param name="RequestId">
+///   hu: Kérés egyedi azonosítója
+///   <br />
+///   en: Unique identifier of the request
+/// </param>
+/// <param name="ResultCode">
+///   hu: Eredménykód (0 = siker), ha nem, akkor hiba kód
+///   <br />
+///   en: Result code (0 = success), otherwise error code
+/// </param>
+public sealed record OrderCloseToEmptiesResponse(
+  string RequestId,
+  int ResultCode
+) : IOrderResponse;

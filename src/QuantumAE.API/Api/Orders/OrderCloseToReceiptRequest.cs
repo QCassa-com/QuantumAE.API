@@ -4,9 +4,9 @@ using QuantumAE.Models;
 namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: Zárási kérés – Számla
+///   hu: Rendelés zárása nyugtaként
 ///   <br />
-///   en: Close request – Invoice
+///   en: Closing order as receipt
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -19,7 +19,7 @@ namespace QuantumAE.Api.Orders;
 ///   en: Unique identifier of the order to be closed in the Tax Unit
 /// </param>
 /// <param name="CloseMethod">
-///   hu: Zárás módja
+///   hu: Zárási módja
 ///   <br />
 ///   en: Close method
 /// </param>
@@ -33,11 +33,6 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Payment info
 /// </param>
-/// <param name="Customer">
-///   hu: Vevő adatai
-///   <br />
-///   en: Customer data
-/// </param>
 /// <param name="Cut">
 ///   hu: Vágás jelzése
 ///   <br />
@@ -48,8 +43,13 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Number of retraction lines
 /// </param>
+/// <param name="ReceiptType">
+///   hu: Nyugta típusa (ha van)
+///   <br />
+///   en: Receipt type (if any)
+/// </param>
 [PublicAPI]
-public sealed record TOrderCloseToInvoiceRequest(
+public sealed record OrderCloseToReceiptRequest(
   string RequestId,
   int ResultCode,
   string OrderId,
@@ -57,7 +57,26 @@ public sealed record TOrderCloseToInvoiceRequest(
   TCloseMethod CloseMethod,
   TDocumentGeneral DocumentGeneral,
   TPay Pay,
-  TCustomer Customer,
-  bool Cut,
-  int Retraction
-) : IQaeResponse;
+  bool? Cut,
+  int? Retraction,
+  TReceiptType? ReceiptType
+) : IOrderRequest;
+
+
+/// <summary>
+///   hu: Rendelés zárása nyugtaként válasz
+///   <br />
+///   en: Closing order as receipt response
+/// </summary>
+/// <param name="RequestId">
+///   hu: Kérés egyedi azonosítója
+///   <br />
+///   en: Unique identifier of the request
+/// </param>
+/// <param name="ResultCode">
+///   hu: Eredménykód (0 = siker), ha nem, akkor hiba kód
+///   <br />
+///   en: Result code (0 = success), otherwise error code
+/// </param>
+[PublicAPI]
+public sealed record OrderCloseToReceiptResponse(string RequestId, int ResultCode) : IOrderResponse;

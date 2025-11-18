@@ -4,9 +4,9 @@ using QuantumAE.Models;
 namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: Zárási kérés – Üzemanyagkártya
+///   hu: Rendelés zárása visszáru bizonylatként
 ///   <br />
-///   en: Close request – Fuel card
+///   en: Closing an order as a return document
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -28,15 +28,20 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Document general info
 /// </param>
-/// <param name="FuelCardClose">
-///   hu: Üzemanyagkártya zárási adatai
+/// <param name="Pay">
+///   hu: Fizetés adatai
 ///   <br />
-///   en: Fuel card close information
+///   en: Payment info
 /// </param>
 /// <param name="Customer">
 ///   hu: Vevő adatai
 ///   <br />
 ///   en: Customer data
+/// </param>
+/// <param name="ReturnInfo">
+///   hu: Visszáru adatai
+///   <br />
+///   en: Return information
 /// </param>
 /// <param name="Cut">
 ///   hu: Vágás jelzése
@@ -49,15 +54,38 @@ namespace QuantumAE.Api.Orders;
 ///   en: Number of retraction lines
 /// </param>
 [PublicAPI]
-public sealed record TOrderCloseToFuelCardRequest(
+public sealed record OrderCloseToReturnRequest(
   string RequestId,
   int ResultCode,
   string OrderId,
   string DocumentId,
   TCloseMethod CloseMethod,
   TDocumentGeneral DocumentGeneral,
-  TFuelCardClose FuelCardClose,
+  TPay Pay,
   TCustomer Customer,
+  TReturnInfo ReturnInfo,
   bool Cut,
   int Retraction
-) : IQaeResponse;
+) : IOrderRequest;
+
+
+/// <summary>
+///   hu: Rendelés zárása visszáru bizonylatként - válasz
+///   <br />
+///   en: Closing an order as a return document - response
+/// </summary>
+/// <param name="RequestId">
+///   hu: Kérés egyedi azonosítója
+///   <br />
+///   en: Unique identifier of the request
+/// </param>
+/// <param name="ResultCode">
+///   hu: Eredménykód (0 = siker), ha nem, akkor hiba kód
+///   <br />
+///   en: Result code (0 = success), otherwise error code
+/// </param>
+[PublicAPI]
+public sealed record OrderCloseToReturnResponse(
+  string RequestId,
+  int ResultCode
+) : IOrderResponse;

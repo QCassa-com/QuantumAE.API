@@ -1,5 +1,3 @@
-using System;
-
 namespace QuantumAE.Api.Device;
 
 /// <summary>

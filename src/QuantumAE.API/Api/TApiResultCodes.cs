@@ -29,6 +29,7 @@ public enum TOrderResult
 {
   Success,
   OrderNotFound = TApiResultCodes.OrderResult,
+  Opened,
   NotOpenOrClosed,
   Empty,
   Closed

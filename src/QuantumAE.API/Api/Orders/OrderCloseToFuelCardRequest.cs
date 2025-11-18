@@ -4,9 +4,9 @@ using QuantumAE.Models;
 namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: Zárási kérés – Nyugta
+///   hu: Rendelés zárása üzemanyagkártyaként
 ///   <br />
-///   en: Close request – Receipt
+///   en: Order close as fuel card
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -19,7 +19,7 @@ namespace QuantumAE.Api.Orders;
 ///   en: Unique identifier of the order to be closed in the Tax Unit
 /// </param>
 /// <param name="CloseMethod">
-///   hu: Zárási módja
+///   hu: Zárás módja
 ///   <br />
 ///   en: Close method
 /// </param>
@@ -28,10 +28,15 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Document general info
 /// </param>
-/// <param name="Pay">
-///   hu: Fizetés adatai
+/// <param name="FuelCardClose">
+///   hu: Üzemanyagkártya zárási adatai
 ///   <br />
-///   en: Payment info
+///   en: Fuel card close information
+/// </param>
+/// <param name="Customer">
+///   hu: Vevő adatai
+///   <br />
+///   en: Customer data
 /// </param>
 /// <param name="Cut">
 ///   hu: Vágás jelzése
@@ -43,21 +48,37 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Number of retraction lines
 /// </param>
-/// <param name="ReceiptType">
-///   hu: Nyugta típusa (ha van)
-///   <br />
-///   en: Receipt type (if any)
-/// </param>
 [PublicAPI]
-public sealed record TOrderCloseToReceiptRequest(
+public sealed record OrderCloseToFuelCardRequest(
   string RequestId,
   int ResultCode,
   string OrderId,
   string DocumentId,
   TCloseMethod CloseMethod,
   TDocumentGeneral DocumentGeneral,
-  TPay Pay,
-  bool? Cut,
-  int? Retraction,
-  TReceiptType? ReceiptType
-) : IQaeResponse;
+  TFuelCardClose FuelCardClose,
+  TCustomer Customer,
+  bool Cut,
+  int Retraction
+) : IOrderRequest;
+
+/// <summary>
+///   hu: Rendelés zárása üzemanyagkártyaként válasz
+///   <br />
+///   en: Order close as fuel card response
+/// </summary>
+/// <param name="RequestId">
+///   hu: Kérés egyedi azonosítója
+///   <br />
+///   en: Unique identifier of the request
+/// </param>
+/// <param name="ResultCode">
+///   hu: Eredménykód (0 = siker), ha nem, akkor hiba kód
+///   <br />
+///   en: Result code (0 = success), otherwise error code
+/// </param>
+[PublicAPI]
+public sealed record OrderCloseToFuelCardResponse(
+  string RequestId,
+  int ResultCode
+) : IOrderResponse;

@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <RootNamespace>QuantumAE</RootNamespace>
         <LangVersion>default</LangVersion>
-        <ImplicitUsings>disable</ImplicitUsings>
+        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

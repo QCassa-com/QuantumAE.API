@@ -1,5 +1,6 @@
 ﻿using QuantumAE;
 using QuantumAE.Api.Orders;
+using QuantumAE.Models;
 using Spectre.Console;
 
 static int ShowRootHelp()
@@ -228,7 +229,7 @@ static int HandleOrder(string[] args)
                     return ShowOrderHelp();
                 }
                 var reqId = GetOpt("--request") ?? Guid.NewGuid().ToString("N");
-                var req = new TOrderOpenQaeRequest(reqId, orderId!);
+                var req = new OrderOpenRequest(reqId, orderId!);
                 var res = client.OpenAsync(req).GetAwaiter().GetResult();
                 AnsiConsole.MarkupLine($"[green]Open OK[/] RequestId={res.RequestId}, ResultCode={res.ResultCode}");
                 return 0;
@@ -237,14 +238,14 @@ static int HandleOrder(string[] args)
             {
                 var orderId = GetOpt("--order");
                 var name = GetOpt("--name");
-                var article = GetOpt("--article");
+                //var article = GetOpt("--article");
                 var unit = GetOpt("--unit");
                 var priceStr = GetOpt("--price");
                 var qtyStr = GetOpt("--qty");
                 var cat = GetOpt("--cat") ?? string.Empty;
                 var dept = GetOpt("--dept") ?? string.Empty;
 
-                if (string.IsNullOrWhiteSpace(orderId) || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(article) || string.IsNullOrWhiteSpace(unit) || string.IsNullOrWhiteSpace(priceStr) || string.IsNullOrWhiteSpace(qtyStr))
+                if (string.IsNullOrWhiteSpace(orderId) || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(unit) || string.IsNullOrWhiteSpace(priceStr) || string.IsNullOrWhiteSpace(qtyStr))
                 {
                     AnsiConsole.MarkupLine("[red]Hiányzó kötelező paraméter. Lásd: qae order --help[/]");
                     return ShowOrderHelp();
@@ -262,8 +263,8 @@ static int HandleOrder(string[] args)
                 }
 
                 var reqId = Guid.NewGuid().ToString("N");
-                var item = new TOrderItem(name!, article!, unit!, price, qty, cat, dept);
-                var req = new TOrderItemsAddQaeRequest(reqId, orderId!, item);
+                var item = new TOrderItem(name!, qty, unit!, price, qty * price);
+                var req = new OrderItemsAddRequest(reqId, orderId!, item);
                 var res = client.ItemAddAsync(req).GetAwaiter().GetResult();
                 AnsiConsole.MarkupLine($"[green]Item added[/] RequestId={res.RequestId}, ResultCode={res.ResultCode}");
                 return 0;
