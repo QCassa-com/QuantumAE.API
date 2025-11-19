@@ -13,8 +13,9 @@ public class TApiResultCodes
   ///  en: Order operation successful
   /// </summary>
   public const int OrderResult = 0x1000;
-  public const int ControlResult = 0x2000;
-  public const int DeviceResult = 0x3000;
+  public const int OrderItemResult = 0x2000;
+  public const int ControlResult = 0x3000;
+  public const int DeviceResult = 0x4000;
 }
 
 public enum TControlResult
@@ -33,7 +34,16 @@ public enum TOrderResult
   NotOpenOrClosed,
   Empty,
   Closed
-} 
+}
+
+public enum TOrderItemResultCode
+{
+  Success,
+  NameAndBarCodeEmpty = TApiResultCodes.OrderItemResult,
+  ProductNotFound,
+  InvalidQuantity,
+  InvalidPrice,
+}
 
 public enum TDeviceResult
 {

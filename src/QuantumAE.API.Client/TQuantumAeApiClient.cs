@@ -50,11 +50,11 @@ public sealed class TQuantumAeApiClient : IDisposable
     FHttp.Dispose();
   }
 
-  public async Task<TApiResult> OpenAsync(OrderOpenRequest ARequest, CancellationToken ct = default)
-    => await PostAsync<OrderOpenRequest, TApiResult>("/orders/open", ARequest, ct).ConfigureAwait(false);
+  public async Task<OrderOpenResponse> OpenAsync(OrderOpenRequest ARequest, CancellationToken ct = default)
+    => await PostAsync<OrderOpenRequest, OrderOpenResponse>("/orders/open", ARequest, ct).ConfigureAwait(false);
 
-  public async Task<TApiResult> ItemAddAsync(OrderItemsAddRequest ARequest, CancellationToken ct = default)
-    => await PostAsync<OrderItemsAddRequest, TApiResult>("/orders/items", ARequest, ct).ConfigureAwait(false);
+  public async Task<OrderItemsAddResponse> ItemAddAsync(OrderItemsAddRequest ARequest, CancellationToken ct = default)
+    => await PostAsync<OrderItemsAddRequest, OrderItemsAddResponse>("/orders/items", ARequest, ct).ConfigureAwait(false);
 
   private async Task<TResponse> PostAsync<TRequest, TResponse>(string path, TRequest payload, CancellationToken ct)
   {

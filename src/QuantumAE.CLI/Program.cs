@@ -263,7 +263,14 @@ static int HandleOrder(string[] args)
                 }
 
                 var reqId = Guid.NewGuid().ToString("N");
-                var item = new TOrderItem(name!, qty, unit!, price, qty * price);
+                var item = new TOrderItem()
+                {
+                    Name = name, 
+                    Quantity = qty, 
+                    Unit = unit, 
+                    UnitPrice = price, 
+                    Total = qty * price
+                };
                 var req = new OrderItemsAddRequest(reqId, orderId!, item);
                 var res = client.ItemAddAsync(req).GetAwaiter().GetResult();
                 AnsiConsole.MarkupLine($"[green]Item added[/] RequestId={res.RequestId}, ResultCode={res.ResultCode}");
