@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
 using QuantumAE.Models;
 
-namespace QuantumAE.Api
+namespace QuantumAE.Api.Orders
 {
   /// <summary>
   ///  hu: Rendelés tétel validátor osztály
@@ -9,7 +9,7 @@ namespace QuantumAE.Api
   ///  en: Order item validator class
   /// </summary>
   [PublicAPI]
-  public class TOrderItemValidator
+  public static class TOrderValidator
   {
     /// <summary>
     ///  hu: Rendelés tétel validálása
@@ -22,16 +22,16 @@ namespace QuantumAE.Api
     ///  en: Order item
     /// </param>
     /// <returns>
-    ///  hu: 
+    ///  hu: Eredménykód
     ///  <br />
-    ///  en: True if the item is valid, otherwise false
+    ///  en: 
     /// </returns>
-    public TOrderItemResultCode Validate(TOrderItem AOrderItem)
+    public static TOrderItemResult Validate(this TOrderItem AOrderItem)
     {
       if (string.IsNullOrWhiteSpace(AOrderItem.Name) && string.IsNullOrEmpty(AOrderItem.Barcode))
-        return TOrderItemResultCode.NameAndBarCodeEmpty;
+        return TOrderItemResult.NameAndBarCodeEmpty;
         
-      return TOrderItemResultCode.Success;
+      return TOrderItemResult.Success;
     }
   }
 }

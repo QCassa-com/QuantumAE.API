@@ -51,12 +51,11 @@ namespace QuantumAE.Api.Orders;
 [PublicAPI]
 public sealed record OrderCloseToReceiptRequest(
   string RequestId,
-  int ResultCode,
   string OrderId,
-  string DocumentId,
-  TCloseMethod CloseMethod,
-  TDocumentGeneral DocumentGeneral,
-  TPay Pay,
+  string? DocumentId,
+  TCloseMethod? CloseMethod,
+  TDocumentGeneral? DocumentGeneral,
+  TPay? Pay,
   bool? Cut,
   int? Retraction,
   TReceiptType? ReceiptType

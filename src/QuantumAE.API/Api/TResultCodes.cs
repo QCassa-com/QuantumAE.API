@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+
 namespace QuantumAE.Api;
 
 /// <summary>
@@ -5,7 +7,8 @@ namespace QuantumAE.Api;
 /// <br />
 ///  en: API response codes constants class
 /// </summary>
-public class TApiResultCodes
+[PublicAPI]
+public class TResultCodes
 {
   /// <summary>
   ///  hu: Rendelés műveleti kódok
@@ -13,41 +16,55 @@ public class TApiResultCodes
   ///  en: Order operation successful
   /// </summary>
   public const int OrderResult = 0x1000;
+  /// <summary>
+  /// 
+  /// </summary>
   public const int OrderItemResult = 0x2000;
+  /// <summary>
+  /// 
+  /// </summary>
   public const int ControlResult = 0x3000;
+  /// <summary>
+  /// 
+  /// </summary>
   public const int DeviceResult = 0x4000;
 }
 
+//[PublicAPI]
 public enum TControlResult
 {
   Success,
-  SessionNotFound = TApiResultCodes.ControlResult,
+  SessionNotFound = TResultCodes.ControlResult,
   SessionInvalid,
   InternalError
 }
 
+//[PublicAPI]
 public enum TOrderResult
 {
   Success,
-  OrderNotFound = TApiResultCodes.OrderResult,
+  OrderNotFound = TResultCodes.OrderResult,
+  NotSupported,
   Opened,
   NotOpenOrClosed,
   Empty,
   Closed
 }
 
-public enum TOrderItemResultCode
+//[PublicAPI]
+public enum TOrderItemResult
 {
   Success,
-  NameAndBarCodeEmpty = TApiResultCodes.OrderItemResult,
+  NameAndBarCodeEmpty = TResultCodes.OrderItemResult,
   ProductNotFound,
   InvalidQuantity,
   InvalidPrice,
 }
 
+//[PublicAPI]
 public enum TDeviceResult
 {
   Success,
-  DeviceNotFound = TApiResultCodes.DeviceResult,
+  DeviceNotFound = TResultCodes.DeviceResult,
   InternalError
 }
