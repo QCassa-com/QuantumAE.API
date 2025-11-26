@@ -21,6 +21,3 @@ public interface IOrderRequest: IQaeRequest
 public interface IOrderResponse : IQaeResponse
 {
 }
-
-/// <inheritdoc />
-public record OrderResponse(string RequestId, int ResultCode) : IOrderResponse;

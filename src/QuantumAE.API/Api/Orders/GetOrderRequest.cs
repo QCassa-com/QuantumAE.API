@@ -42,5 +42,5 @@ namespace QuantumAE.Api.Orders
   ///   en: Order data (in case of success)
   /// </param>
   [PublicAPI]
-  public sealed record GetOrderResponse(string RequestId, int ResultCode, TOrder? Order = null) : IOrderResponse;
+  public sealed record GetOrderResponse(string RequestId, int ResultCode, TOrder? Order = null, string? ErrorMessage = null) : IOrderResponse;
 }

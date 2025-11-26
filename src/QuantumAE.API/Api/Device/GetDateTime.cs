@@ -16,4 +16,4 @@ public record GetDateTimeRequest(string RequestId) : IDeviceRequest;
 ///   en: Date and time query response
 /// </summary>
 /// <param name="DateTime"></param>
-public record GetDateTimeResponse(string RequestId, int ResultCode, DateTime DateTime): IDeviceResponse;
+public record GetDateTimeResponse(string RequestId, int ResultCode, DateTime DateTime, string? ErrorMessage = null) : IDeviceResponse;

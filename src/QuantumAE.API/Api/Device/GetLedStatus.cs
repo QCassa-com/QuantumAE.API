@@ -37,4 +37,4 @@ public record GetLedStatusRequest(string RequestId) : IDeviceRequest;
 ///   <br />
 ///   en: List of LED states
 /// </param>
-public record GetLedStatusResponse(string RequestId, int ResultCode, TLedState[] LedStatus) : IDeviceResponse;
+public record GetLedStatusResponse(string RequestId, int ResultCode, TLedState[] LedStatus, string? ErrorMessage = null) : IDeviceResponse;

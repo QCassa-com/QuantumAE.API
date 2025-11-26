@@ -37,4 +37,4 @@ public record GetOpenIdsRequest(string RequestId): IOrderRequest;
 ///   en: List of unique identifiers of open orders
 /// </param>
 [PublicAPI]
-public sealed record GetOpenIdsResponse(string RequestId, int ResultCode, IReadOnlyList<string>? OrderIds): IQaeResponse;
+public sealed record GetOpenIdsResponse(string RequestId, int ResultCode, IReadOnlyList<string>? OrderIds, string? ErrorMessage = null): IQaeResponse;

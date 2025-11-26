@@ -38,4 +38,4 @@ public record OrderCloseToHealthCardRequest(string RequestId, string OrderId) : 
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
 [PublicAPI]
-public record OrderCloseToHealthCardResponse(string RequestId, int ResultCode) : IOrderResponse;
+public record OrderCloseToHealthCardResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;

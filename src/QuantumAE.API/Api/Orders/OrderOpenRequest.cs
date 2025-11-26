@@ -32,5 +32,5 @@ namespace QuantumAE.Api.Orders
   ///   <br />
   ///   en: Result code (0 = success), otherwise error code
   /// </param>
-  public sealed record OrderOpenResponse(string RequestId, int ResultCode) : IOrderResponse;
+  public sealed record OrderOpenResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;
 }

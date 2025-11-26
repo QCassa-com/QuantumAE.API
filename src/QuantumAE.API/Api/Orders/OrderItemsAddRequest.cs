@@ -41,4 +41,4 @@ public sealed record OrderItemsAddRequest(string RequestId, string OrderId, TOrd
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
-public sealed record OrderItemsAddResponse(string RequestId, int ResultCode) : IOrderResponse;
+public sealed record OrderItemsAddResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;

@@ -18,4 +18,4 @@ namespace QuantumAE.Api.Orders;
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
 [PublicAPI]
-public sealed record TSimpleAckQaeResponse(string RequestId, int ResultCode) : IQaeResponse;
+public sealed record TSimpleAckQaeResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IQaeResponse;

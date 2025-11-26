@@ -18,4 +18,4 @@ public sealed record GetRegistrationStatusRequest(string RequestId) : INavIReque
 ///   en: Registration status query response
 /// </summary>
 [PublicAPI]
-public sealed record GetRegistrationStatusResponse(string RequestId, int ResultCode): INavIResponse;
+public sealed record GetRegistrationStatusResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : INavIResponse;

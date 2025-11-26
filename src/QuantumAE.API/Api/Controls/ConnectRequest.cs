@@ -36,4 +36,4 @@ public record ConnectRequest(string RequestId, string ApNumber): IControlsReques
 ///   en: Session identifier
 /// </param>
 [PublicAPI]
-public record ConnectResponse(string RequestId, int ResultCode, string SessionId) : IControlsResponse;
+public record ConnectResponse(string RequestId, int ResultCode, string SessionId, string? ErrorMessage = null) : IControlsResponse;

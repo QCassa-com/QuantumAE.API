@@ -39,5 +39,12 @@ namespace QuantumAE.Api
     ///   en: Result code (0 = success), otherwise error code
     /// </summary>
     int ResultCode { get; init; }
+
+    /// <summary>
+    ///   hu: Hibaüzenet (ha van)
+    ///   <br />
+    ///   en: Error message (if any)
+    /// </summary>
+    string? ErrorMessage { get; init; }
   }
 }

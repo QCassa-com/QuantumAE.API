@@ -78,4 +78,4 @@ public sealed record OrderCloseToReceiptRequest(
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToReceiptResponse(string RequestId, int ResultCode) : IOrderResponse;
+public sealed record OrderCloseToReceiptResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;

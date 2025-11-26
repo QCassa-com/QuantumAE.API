@@ -85,7 +85,4 @@ public sealed record OrderCloseToStornoRequest(
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToStornoResponse(
-  string RequestId,
-  int ResultCode
-) : IOrderResponse;
+public sealed record OrderCloseToStornoResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;

@@ -21,4 +21,4 @@ public sealed record RenewCertificatesRequest(string RequestId): INavIRequest;
 ///   en: Certificate renewal response
 /// </summary>
 [PublicAPI]
-public sealed record RenewCertificatesResponse(string RequestId, int ResultCode): INavIResponse;
+public sealed record RenewCertificatesResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : INavIResponse;

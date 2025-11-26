@@ -36,4 +36,4 @@ public sealed record RegistrationRequest(string RequestId, string RegistrationNu
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
 [PublicAPI]
-public sealed record RegistrationResponse(string RequestId, int ResultCode) : INavIResponse;
+public sealed record RegistrationResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : INavIResponse;

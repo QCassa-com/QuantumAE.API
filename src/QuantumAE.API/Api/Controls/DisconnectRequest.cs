@@ -36,5 +36,10 @@ public record DisconnectRequest(string RequestId): IControlsRequest;
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
+/// <param name="ErrorMessage">
+///   hu: Hibaüzenet (ha van)
+///   <br />
+///   en: Error message (if any)
+/// </param>
 [PublicAPI]
-public record DisconnectResponse(string RequestId, int ResultCode) : IControlsResponse;
+public record DisconnectResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IControlsResponse;
