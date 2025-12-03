@@ -87,6 +87,8 @@ public enum TDeviceResult
 public enum TNavIResult
 {
   Success,
-  Registeres = TResultCodes.NavIResult,
-  
+  Registered = TResultCodes.NavIResult,
+  NavIError,
+  AlreadyInProgress,
+  Failure
 }
