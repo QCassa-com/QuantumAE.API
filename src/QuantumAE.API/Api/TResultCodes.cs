@@ -73,6 +73,9 @@ public enum TOrderItemResult
   ProductNotFound,
   InvalidQuantity,
   InvalidPrice,
+  LineNotFound,
+  AlreadyStornoed,
+  CannotUpdateStornoed
 }
 
 //[PublicAPI]

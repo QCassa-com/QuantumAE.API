@@ -25,6 +25,7 @@ public record OrderCloseToHealthCardRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
+
   [property: Required]
   [property: NotEmptyString]
   string OrderId

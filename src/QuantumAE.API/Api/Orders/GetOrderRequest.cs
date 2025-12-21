@@ -25,6 +25,7 @@ public sealed record GetOrderRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
+
   [property: Required]
   [property: NotEmptyString]
   string OrderId

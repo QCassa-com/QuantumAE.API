@@ -54,17 +54,23 @@ public sealed record OrderCloseToInvoiceRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
+
   int ResultCode,
+
   [property: Required]
   [property: NotEmptyString]
   string OrderId,
+
   string DocumentId,
   TCloseMethod CloseMethod,
   TDocumentGeneral DocumentGeneral,
   TPay Pay,
+
   [property: Required]
   TCustomer Customer,
+
   bool Cut,
+
   [property: Range(0, 100)]
   int Retraction
 ) : IOrderRequest;

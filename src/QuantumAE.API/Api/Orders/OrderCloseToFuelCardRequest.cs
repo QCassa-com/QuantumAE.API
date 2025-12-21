@@ -55,17 +55,23 @@ public sealed record OrderCloseToFuelCardRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
+
   int ResultCode,
+
   [property: Required]
   [property: NotEmptyString]
   string OrderId,
+
   string DocumentId,
   TCloseMethod CloseMethod,
   TDocumentGeneral DocumentGeneral,
+
   [property: Required]
   TFuelCardClose FuelCardClose,
+
   TCustomer Customer,
   bool Cut,
+
   [property: Range(0, 100)]
   int Retraction
 ) : IOrderRequest;

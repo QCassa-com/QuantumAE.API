@@ -39,10 +39,13 @@ public sealed record OrderCloseToSummaryRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
+
   int ResultCode,
+
   [property: Required]
   [property: NotEmptyString]
   string OrderId,
+
   string DocumentId,
   TCloseMethod CloseMethod,
   TDocumentGeneral DocumentGeneral,

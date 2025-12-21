@@ -5,9 +5,9 @@ using QuantumAE.Validation;
 namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: Egy tétel hozzáadása a rendeléshez
+///   hu: Tétel módosítása a rendelésben
 ///   <br />
-///   en: Add an item to the order
+///   en: Update an item in the order
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -19,13 +19,18 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Unique identifier of the order
 /// </param>
-/// <param name="Item">
-///   hu: Hozzáadandó tétel adatai
+/// <param name="LineNumber">
+///   hu: Módosítandó tétel sorszáma
 ///   <br />
-///   en: Data of the item to be added
+///   en: Line number of the item to update
+/// </param>
+/// <param name="Item">
+///   hu: Módosítandó adatok (csak a megadott mezők frissülnek)
+///   <br />
+///   en: Data to update (only specified fields will be updated)
 /// </param>
 [PublicAPI]
-public sealed record OrderItemsAddRequest(
+public sealed record OrderItemUpdateRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -35,13 +40,17 @@ public sealed record OrderItemsAddRequest(
   string OrderId,
 
   [property: Required]
-  TOrderItem Item
+  [property: Range(1, int.MaxValue)]
+  int LineNumber,
+
+  [property: Required]
+  TOrderItemUpdate Item
 ) : IOrderRequest;
 
 /// <summary>
-///   hu: Tétel hozzáadás válasz
+///   hu: Tétel módosítás válasz
 ///   <br />
-///   en: Item addition response
+///   en: Item update response
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -53,5 +62,14 @@ public sealed record OrderItemsAddRequest(
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
+/// <param name="ErrorMessage">
+///   hu: Hibaüzenet (opcionális)
+///   <br />
+///   en: Error message (optional)
+/// </param>
 [PublicAPI]
-public sealed record OrderItemsAddResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;
+public sealed record OrderItemUpdateResponse(
+  string RequestId,
+  int ResultCode,
+  string? ErrorMessage = null
+) : IOrderResponse;

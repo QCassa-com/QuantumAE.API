@@ -23,6 +23,7 @@ public sealed record OrderOpenRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
+
   [property: Required]
   [property: NotEmptyString]
   string OrderId

@@ -19,21 +19,21 @@ public class TOrder
   [Required]
   [NotEmptyString]
   public string Id { get; set; } = string.Empty;
-  
+
   /// <summary>
   ///   hu: Rendelés nyitásának időpontja
   ///   <br />
   ///   en: Order creation time
   /// </summary>
   public DateTime CreatedAtUtc { get; set; }
-  
+
   /// <summary>
   ///   hu: Rendelés zárásának időpontja
   ///   <br />
   ///   en: Order closing time
   /// </summary>
   public DateTime? ClosedAtUtc { get; set; }
-  
+
   /// <summary>
   ///  hu: Tételek
   ///  <br />
@@ -47,49 +47,109 @@ public class TOrder
 ///   <br />
 ///   en: Order item
 /// </summary>
-/// <param name="Name">
-///   hu: Megnevezés
-///   <br />
-///   en: Name
-/// </param>
-/// <param name="Quantity">
-///   hu: Mennyiség
-///   <br />
-///   en: Quantity
-/// </param>
-/// <param name="Unit">
-///   hu: Mértékegység
-///   <br />
-///   en: Unit of measure
-/// </param>
-/// <param name="UnitPrice">
-///   hu: Egységár
-///   <br />
-///   en: Unit price
-/// </param>
-/// <param name="Total">
-///   hu: Sorösszeg
-///   <br />
-///   en: Line total
-/// </param>
 [PublicAPI]
 public class TOrderItem
+{
+  /// <summary>
+  ///   hu: Tétel sorszáma (1-től induló, automatikusan generált ha nincs megadva)
+  ///   <br />
+  ///   en: Line number (starting from 1, auto-generated if not specified)
+  /// </summary>
+  public int? LineNumber { get; set; }
+
+  /// <summary>
+  ///   hu: Tétel jellege (n=értékesítés, ns=sztornó, e=engedmény, stb.)
+  ///   <br />
+  ///   en: Item nature (n=sale, ns=storno, e=discount, etc.)
+  /// </summary>
+  [StringLength(3)]
+  public string ItemNature { get; set; } = TItemNature.Default;
+
+  /// <summary>
+  ///   hu: Megnevezés (kötelező items/add esetén)
+  ///   <br />
+  ///   en: Name (required for items/add)
+  /// </summary>
+  [StringLength(512)]
+  public string? Name { get; set; }
+
+  /// <summary>
+  ///   hu: Vonalkód (EAN/GTIN)
+  ///   <br />
+  ///   en: Barcode (EAN/GTIN)
+  /// </summary>
+  [StringLength(50)]
+  public string? Barcode { get; set; }
+
+  /// <summary>
+  ///   hu: Mennyiség (alapértelmezett: 1)
+  ///   <br />
+  ///   en: Quantity (default: 1)
+  /// </summary>
+  [PositiveDecimal]
+  public decimal Quantity { get; set; } = 1;
+
+  /// <summary>
+  ///   hu: Mértékegység típusa (alapértelmezett: darab)
+  ///   <br />
+  ///   en: Unit of measure type (default: piece)
+  /// </summary>
+  public TUnitType UnitType { get; set; } = TUnitType.Piece;
+
+  /// <summary>
+  ///   hu: Egyedi mértékegység neve (csak ha UnitType = Other)
+  ///   <br />
+  ///   en: Custom unit name (only if UnitType = Other)
+  /// </summary>
+  [StringLength(50)]
+  public string? UnitName { get; set; }
+
+  /// <summary>
+  ///   hu: Egységár
+  ///   <br />
+  ///   en: Unit price
+  /// </summary>
+  [PositiveDecimal(AAllowZero: true)]
+  public decimal? UnitPrice { get; set; }
+
+  /// <summary>
+  ///   hu: Sorösszeg (kötelező items/add esetén)
+  ///   <br />
+  ///   en: Line total (required for items/add)
+  /// </summary>
+  [PositiveDecimal(AAllowZero: true)]
+  public decimal? Total { get; set; }
+
+  /// <summary>
+  ///   hu: ÁFA kód (A=5%, B=18%, C=27%, D=0%, stb.) - kötelező items/add esetén
+  ///   <br />
+  ///   en: VAT code (A=5%, B=18%, C=27%, D=0%, etc.) - required for items/add
+  /// </summary>
+  [StringLength(10)]
+  public string? VatCode { get; set; }
+}
+
+/// <summary>
+///   hu: Tétel módosítás adatai (minden mező opcionális)
+///   <br />
+///   en: Item update data (all fields optional)
+/// </summary>
+[PublicAPI]
+public class TOrderItemUpdate
 {
   /// <summary>
   ///   hu: Megnevezés
   ///   <br />
   ///   en: Name
   /// </summary>
-  [RequiredIfEmpty(nameof(Barcode))]
-  [StringLength(200)]
+  [StringLength(512)]
   public string? Name { get; set; }
 
   /// <summary>
-  ///   hu: Vonalkód
+  ///   hu: Vonalkód (EAN/GTIN)
   ///   <br />
-  ///   en: Barcode
+  ///   en: Barcode (EAN/GTIN)
   /// </summary>
-  [RequiredIfEmpty(nameof(Name))]
   [StringLength(50)]
   public string? Barcode { get; set; }
 
@@ -102,12 +162,19 @@ public class TOrderItem
   public decimal? Quantity { get; set; }
 
   /// <summary>
-  ///   hu: Mértékegység
+  ///   hu: Mértékegység típusa
   ///   <br />
-  ///   en: Unit of measure
+  ///   en: Unit of measure type
   /// </summary>
-  [StringLength(20)]
-  public string? Unit { get; set; }
+  public TUnitType? UnitType { get; set; }
+
+  /// <summary>
+  ///   hu: Egyedi mértékegység neve (csak ha UnitType = Other)
+  ///   <br />
+  ///   en: Custom unit name (only if UnitType = Other)
+  /// </summary>
+  [StringLength(50)]
+  public string? UnitName { get; set; }
 
   /// <summary>
   ///   hu: Egységár
@@ -124,4 +191,12 @@ public class TOrderItem
   /// </summary>
   [PositiveDecimal(AAllowZero: true)]
   public decimal? Total { get; set; }
+
+  /// <summary>
+  ///   hu: ÁFA kód (A=5%, B=18%, C=27%, D=0%, stb.)
+  ///   <br />
+  ///   en: VAT code (A=5%, B=18%, C=27%, D=0%, etc.)
+  /// </summary>
+  [StringLength(10)]
+  public string? VatCode { get; set; }
 }

@@ -54,16 +54,20 @@ public sealed record OrderCloseToReceiptRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
+
   [property: Required]
   [property: NotEmptyString]
   string OrderId,
+
   string? DocumentId,
   TCloseMethod? CloseMethod,
   TDocumentGeneral? DocumentGeneral,
   TPay? Pay,
   bool? Cut,
+
   [property: Range(0, 100)]
   int? Retraction,
+
   TReceiptType? ReceiptType
 ) : IOrderRequest;
 

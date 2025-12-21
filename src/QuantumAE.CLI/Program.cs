@@ -238,16 +238,14 @@ static int HandleOrder(string[] args)
             {
                 var orderId = GetOpt("--order");
                 var name = GetOpt("--name");
-                //var article = GetOpt("--article");
-                var unit = GetOpt("--unit");
+                var unit = GetOpt("--unit") ?? "db";
                 var priceStr = GetOpt("--price");
-                var qtyStr = GetOpt("--qty");
-                var cat = GetOpt("--cat") ?? string.Empty;
-                var dept = GetOpt("--dept") ?? string.Empty;
+                var qtyStr = GetOpt("--qty") ?? "1";
+                var vatCode = GetOpt("--vat") ?? "C";
 
-                if (string.IsNullOrWhiteSpace(orderId) || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(unit) || string.IsNullOrWhiteSpace(priceStr) || string.IsNullOrWhiteSpace(qtyStr))
+                if (string.IsNullOrWhiteSpace(orderId) || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(priceStr))
                 {
-                    AnsiConsole.MarkupLine("[red]Hiányzó kötelező paraméter. Lásd: qae order --help[/]");
+                    AnsiConsole.MarkupLine("[red]Hiányzó kötelező paraméter (--order, --name, --price). Lásd: qae order --help[/]");
                     return ShowOrderHelp();
                 }
 
@@ -262,14 +260,28 @@ static int HandleOrder(string[] args)
                     return 2;
                 }
 
+                var unitType = unit.ToLowerInvariant() switch
+                {
+                    "db" or "darab" or "piece" => TUnitType.Piece,
+                    "kg" or "kilogram" => TUnitType.Kilogram,
+                    "l" or "liter" => TUnitType.Liter,
+                    "m" or "meter" => TUnitType.Meter,
+                    "m2" or "nm" => TUnitType.SquareMeter,
+                    "m3" => TUnitType.CubicMeter,
+                    "h" or "ora" or "hour" => TUnitType.Hour,
+                    _ => TUnitType.Other
+                };
+
                 var reqId = Guid.NewGuid().ToString("N");
                 var item = new TOrderItem()
                 {
-                    Name = name, 
-                    Quantity = qty, 
-                    Unit = unit, 
-                    UnitPrice = price, 
-                    Total = qty * price
+                    Name = name,
+                    Quantity = qty,
+                    UnitType = unitType,
+                    UnitName = unitType == TUnitType.Other ? unit : null,
+                    UnitPrice = price,
+                    Total = qty * price,
+                    VatCode = vatCode
                 };
                 var req = new OrderItemsAddRequest(reqId, orderId!, item);
                 var res = client.ItemAddAsync(req).GetAwaiter().GetResult();
