@@ -1,4 +1,6 @@
+
 using JetBrains.Annotations;
+using QuantumAE.Validation;
 
 namespace QuantumAE.Api.Orders;
 
@@ -19,7 +21,14 @@ namespace QuantumAE.Api.Orders;
 ///   en: Unique identifier of the order to be closed in the Tax Unit
 /// </param>
 [PublicAPI]
-public record OrderCloseToHealthCardRequest(string RequestId, string OrderId) : IOrderRequest;
+public record OrderCloseToHealthCardRequest(
+  [property: Required]
+  [property: NotEmptyString]
+  string RequestId,
+  [property: Required]
+  [property: NotEmptyString]
+  string OrderId
+) : IOrderRequest;
 
 
 /// <summary>

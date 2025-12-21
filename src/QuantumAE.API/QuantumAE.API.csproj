@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <RootNamespace>QuantumAE</RootNamespace>
         <LangVersion>default</LangVersion>
@@ -9,15 +9,30 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile>bin\Debug\netstandard2.1\QuantumAE.API.xml</DocumentationFile>
+      <DocumentationFile>bin\Debug\net10.0\QuantumAE.API.xml</DocumentationFile>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <DocumentationFile>bin\Release\netstandard2.1\QuantumAE.API.xml</DocumentationFile>
+      <DocumentationFile>bin\Release\net10.0\QuantumAE.API.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="JetBrains.Annotations" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Validation\Resources\ValidationMessages.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ValidationMessages.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Validation\Resources\ValidationMessages.hu.resx">
+        <DependentUpon>ValidationMessages.resx</DependentUpon>
+      </EmbeddedResource>
+      <Compile Update="Validation\Resources\ValidationMessages.Designer.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>ValidationMessages.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>

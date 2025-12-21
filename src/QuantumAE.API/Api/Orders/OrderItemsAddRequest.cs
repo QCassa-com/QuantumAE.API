@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using QuantumAE.Models;
+using QuantumAE.Validation;
 
 namespace QuantumAE.Api.Orders;
 
@@ -24,7 +25,16 @@ namespace QuantumAE.Api.Orders;
 ///   en: Data of the item to be added
 /// </param>
 [PublicAPI]
-public sealed record OrderItemsAddRequest(string RequestId, string OrderId, TOrderItem Item) : IOrderRequest;
+public sealed record OrderItemsAddRequest(
+  [property: Required]
+  [property: NotEmptyString]
+  string RequestId,
+  [property: Required]
+  [property: NotEmptyString]
+  string OrderId,
+  [property: Required]
+  TOrderItem Item
+) : IOrderRequest;
 
 /// <summary>
 ///   hu: Tétel hozzáadás válasz
@@ -41,4 +51,5 @@ public sealed record OrderItemsAddRequest(string RequestId, string OrderId, TOrd
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
+[PublicAPI]
 public sealed record OrderItemsAddResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;

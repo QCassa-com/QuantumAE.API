@@ -1,4 +1,6 @@
+
 using JetBrains.Annotations;
+using QuantumAE.Validation;
 
 namespace QuantumAE.Api.Orders;
 
@@ -34,8 +36,12 @@ namespace QuantumAE.Api.Orders;
 /// </param>
 [PublicAPI]
 public sealed record OrderCloseToSummaryRequest(
+  [property: Required]
+  [property: NotEmptyString]
   string RequestId,
   int ResultCode,
+  [property: Required]
+  [property: NotEmptyString]
   string OrderId,
   string DocumentId,
   TCloseMethod CloseMethod,

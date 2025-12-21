@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using QuantumAE.Validation;
 
 namespace QuantumAE.Models;
 
@@ -15,6 +16,8 @@ public class TOrder
   ///   <br />
   ///   en: Unique identifier of the order
   /// </summary>
+  [Required]
+  [NotEmptyString]
   public string Id { get; set; } = string.Empty;
   
   /// <summary>
@@ -77,40 +80,48 @@ public class TOrderItem
   ///   <br />
   ///   en: Name
   /// </summary>
+  [RequiredIfEmpty(nameof(Barcode))]
+  [StringLength(200)]
   public string? Name { get; set; }
-  
+
   /// <summary>
   ///   hu: Vonalkód
   ///   <br />
   ///   en: Barcode
   /// </summary>
+  [RequiredIfEmpty(nameof(Name))]
+  [StringLength(50)]
   public string? Barcode { get; set; }
-  
+
   /// <summary>
   ///   hu: Mennyiség
   ///   <br />
   ///   en: Quantity
   /// </summary>
+  [PositiveDecimal]
   public decimal? Quantity { get; set; }
-  
+
   /// <summary>
   ///   hu: Mértékegység
   ///   <br />
   ///   en: Unit of measure
   /// </summary>
+  [StringLength(20)]
   public string? Unit { get; set; }
-  
+
   /// <summary>
   ///   hu: Egységár
   ///   <br />
   ///   en: Unit price
   /// </summary>
+  [PositiveDecimal(AAllowZero: true)]
   public decimal? UnitPrice { get; set; }
-  
+
   /// <summary>
   ///   hu: Sorösszeg
   ///   <br />
   ///   en: Line total
   /// </summary>
+  [PositiveDecimal(AAllowZero: true)]
   public decimal? Total { get; set; }
 }

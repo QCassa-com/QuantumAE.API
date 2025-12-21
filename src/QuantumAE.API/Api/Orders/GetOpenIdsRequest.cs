@@ -1,4 +1,6 @@
+
 using JetBrains.Annotations;
+using QuantumAE.Validation;
 
 namespace QuantumAE.Api.Orders;
 
@@ -13,7 +15,12 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Unique identifier of the request
 /// </param>
-public record GetOpenIdsRequest(string RequestId): IOrderRequest;
+[PublicAPI]
+public record GetOpenIdsRequest(
+  [property: Required]
+  [property: NotEmptyString]
+  string RequestId
+) : IOrderRequest;
 
 
 /// <summary>

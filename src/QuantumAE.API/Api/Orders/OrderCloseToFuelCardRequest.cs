@@ -1,5 +1,7 @@
+
 using JetBrains.Annotations;
 using QuantumAE.Models;
+using QuantumAE.Validation;
 
 namespace QuantumAE.Api.Orders;
 
@@ -50,15 +52,21 @@ namespace QuantumAE.Api.Orders;
 /// </param>
 [PublicAPI]
 public sealed record OrderCloseToFuelCardRequest(
+  [property: Required]
+  [property: NotEmptyString]
   string RequestId,
   int ResultCode,
+  [property: Required]
+  [property: NotEmptyString]
   string OrderId,
   string DocumentId,
   TCloseMethod CloseMethod,
   TDocumentGeneral DocumentGeneral,
+  [property: Required]
   TFuelCardClose FuelCardClose,
   TCustomer Customer,
   bool Cut,
+  [property: Range(0, 100)]
   int Retraction
 ) : IOrderRequest;
 
