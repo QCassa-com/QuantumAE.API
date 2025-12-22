@@ -117,7 +117,14 @@ public enum TOrderResult
   ///   <br />
   ///   en: Document processing error.
   /// </summary>
-  DocumentError
+  DocumentError,
+
+  /// <summary>
+  ///   hu: Számla esetén kötelező a vevő adatok megadása.
+  ///   <br />
+  ///   en: Customer information is required for invoices.
+  /// </summary>
+  CustomerRequired
 }
 
 //[PublicAPI]
