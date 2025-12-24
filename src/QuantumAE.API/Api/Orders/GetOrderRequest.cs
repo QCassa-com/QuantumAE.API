@@ -51,5 +51,10 @@ public sealed record GetOrderRequest(
 ///   <br />
 ///   en: Order data (in case of success)
 /// </param>
+/// <param name="ErrorMessage">
+///   hu: Hibaüzenet (ha hiba történt)
+///   <br />
+///   en: Error message (if error occurred)
+/// </param>
 [PublicAPI]
 public sealed record GetOrderResponse(string RequestId, int ResultCode, TOrder? Order = null, string? ErrorMessage = null) : IOrderResponse;

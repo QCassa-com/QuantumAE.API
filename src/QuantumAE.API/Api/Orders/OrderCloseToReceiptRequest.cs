@@ -19,6 +19,11 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Unique identifier of the order to be closed in the Tax Unit
 /// </param>
+/// <param name="DocumentId">
+///   hu: Bizonylat azonosító
+///   <br />
+///   en: Document identifier
+/// </param>
 /// <param name="CloseMethod">
 ///   hu: Zárási módja
 ///   <br />

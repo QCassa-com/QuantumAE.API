@@ -30,10 +30,20 @@ public record ConnectRequest(string RequestId, string ApNumber): IControlsReques
 ///   <br />
 ///   en: Unique identifier of the request
 /// </param>
+/// <param name="ResultCode">
+///   hu: Eredménykód (0 = sikeres)
+///   <br />
+///   en: Result code (0 = success)
+/// </param>
 /// <param name="SessionId">
 ///   hu: Munkamenet azonosító
 ///   <br />
 ///   en: Session identifier
+/// </param>
+/// <param name="ErrorMessage">
+///   hu: Hibaüzenet (ha hiba történt)
+///   <br />
+///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
 public record ConnectResponse(string RequestId, int ResultCode, string SessionId, string? ErrorMessage = null) : IControlsResponse;

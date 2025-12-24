@@ -44,5 +44,10 @@ public sealed record OrderOpenRequest(
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
+/// <param name="ErrorMessage">
+///   hu: Hibaüzenet (ha hiba történt)
+///   <br />
+///   en: Error message (if error occurred)
+/// </param>
 [PublicAPI]
 public sealed record OrderOpenResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;

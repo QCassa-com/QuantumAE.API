@@ -37,4 +37,9 @@ public record GetLedStatusRequest(string RequestId) : IDeviceRequest;
 ///   <br />
 ///   en: List of LED states
 /// </param>
+/// <param name="ErrorMessage">
+///   hu: Hibaüzenet (ha hiba történt)
+///   <br />
+///   en: Error message (if error occurred)
+/// </param>
 public record GetLedStatusResponse(string RequestId, int ResultCode, TLedState[] LedStatus, string? ErrorMessage = null) : IDeviceResponse;

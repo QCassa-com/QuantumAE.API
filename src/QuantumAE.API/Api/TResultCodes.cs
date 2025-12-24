@@ -44,16 +44,47 @@ public class TResultCodes
   public const int NavIResult = 0x5000;
 }
 
-//[PublicAPI]
+/// <summary>
+///   hu: Vezérlési műveletek eredménykódjai.
+///   <br />
+///   en: Control operation result codes.
+/// </summary>
 public enum TControlResult
 {
+  /// <summary>
+  ///   hu: Sikeres művelet.
+  ///   <br />
+  ///   en: Successful operation.
+  /// </summary>
   Success,
+
+  /// <summary>
+  ///   hu: Munkamenet nem található.
+  ///   <br />
+  ///   en: Session not found.
+  /// </summary>
   SessionNotFound = TResultCodes.ControlResult,
+
+  /// <summary>
+  ///   hu: Érvénytelen munkamenet.
+  ///   <br />
+  ///   en: Invalid session.
+  /// </summary>
   SessionInvalid,
+
+  /// <summary>
+  ///   hu: Belső hiba.
+  ///   <br />
+  ///   en: Internal error.
+  /// </summary>
   InternalError
 }
 
-//[PublicAPI]
+/// <summary>
+///   hu: Rendelés műveletek eredménykódjai.
+///   <br />
+///   en: Order operation result codes.
+/// </summary>
 public enum TOrderResult
 {
   /// <summary>
@@ -127,33 +158,138 @@ public enum TOrderResult
   CustomerRequired
 }
 
-//[PublicAPI]
+/// <summary>
+///   hu: Rendelés tétel műveletek eredménykódjai.
+///   <br />
+///   en: Order item operation result codes.
+/// </summary>
 public enum TOrderItemResult
 {
+  /// <summary>
+  ///   hu: Sikeres művelet.
+  ///   <br />
+  ///   en: Successful operation.
+  /// </summary>
   Success,
+
+  /// <summary>
+  ///   hu: Név és vonalkód is üres.
+  ///   <br />
+  ///   en: Name and barcode are both empty.
+  /// </summary>
   NameAndBarCodeEmpty = TResultCodes.OrderItemResult,
+
+  /// <summary>
+  ///   hu: Termék nem található.
+  ///   <br />
+  ///   en: Product not found.
+  /// </summary>
   ProductNotFound,
+
+  /// <summary>
+  ///   hu: Érvénytelen mennyiség.
+  ///   <br />
+  ///   en: Invalid quantity.
+  /// </summary>
   InvalidQuantity,
+
+  /// <summary>
+  ///   hu: Érvénytelen ár.
+  ///   <br />
+  ///   en: Invalid price.
+  /// </summary>
   InvalidPrice,
+
+  /// <summary>
+  ///   hu: Sor nem található.
+  ///   <br />
+  ///   en: Line not found.
+  /// </summary>
   LineNotFound,
+
+  /// <summary>
+  ///   hu: Tétel már sztornózva van.
+  ///   <br />
+  ///   en: Item is already cancelled.
+  /// </summary>
   AlreadyStornoed,
+
+  /// <summary>
+  ///   hu: Sztornózott tétel nem módosítható.
+  ///   <br />
+  ///   en: Cannot update cancelled item.
+  /// </summary>
   CannotUpdateStornoed
 }
 
-//[PublicAPI]
+/// <summary>
+///   hu: Eszköz műveletek eredménykódjai.
+///   <br />
+///   en: Device operation result codes.
+/// </summary>
 public enum TDeviceResult
 {
+  /// <summary>
+  ///   hu: Sikeres művelet.
+  ///   <br />
+  ///   en: Successful operation.
+  /// </summary>
   Success,
+
+  /// <summary>
+  ///   hu: Eszköz nem található.
+  ///   <br />
+  ///   en: Device not found.
+  /// </summary>
   DeviceNotFound = TResultCodes.DeviceResult,
+
+  /// <summary>
+  ///   hu: Belső hiba.
+  ///   <br />
+  ///   en: Internal error.
+  /// </summary>
   InternalError
 }
 
-//[PublicAPI]
+/// <summary>
+///   hu: NAV-I műveletek eredménykódjai.
+///   <br />
+///   en: NAV-I operation result codes.
+/// </summary>
 public enum TNavIResult
 {
+  /// <summary>
+  ///   hu: Sikeres művelet.
+  ///   <br />
+  ///   en: Successful operation.
+  /// </summary>
   Success,
+
+  /// <summary>
+  ///   hu: Már regisztrálva van.
+  ///   <br />
+  ///   en: Already registered.
+  /// </summary>
   Registered = TResultCodes.NavIResult,
+
+  /// <summary>
+  ///   hu: NAV-I kommunikációs hiba.
+  ///   <br />
+  ///   en: NAV-I communication error.
+  /// </summary>
   NavIError,
+
+  /// <summary>
+  ///   hu: Művelet már folyamatban van.
+  ///   <br />
+  ///   en: Operation already in progress.
+  /// </summary>
   AlreadyInProgress,
+
+  /// <summary>
+  ///   hu: Sikertelen művelet.
+  ///   <br />
+  ///   en: Operation failed.
+  /// </summary>
   Failure
 }

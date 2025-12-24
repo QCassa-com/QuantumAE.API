@@ -15,10 +15,20 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Unique identifier of the request
 /// </param>
+/// <param name="ResultCode">
+///   hu: Eredménykód (0 = sikeres)
+///   <br />
+///   en: Result code (0 = success)
+/// </param>
 /// <param name="OrderId">
 ///   hu: A lezárandó rendelés egyedi azonosítója az Adóügyi Egységben
 ///   <br />
 ///   en: Unique identifier of the order to be closed in the Tax Unit
+/// </param>
+/// <param name="DocumentId">
+///   hu: Bizonylat azonosító
+///   <br />
+///   en: Document identifier
 /// </param>
 /// <param name="CloseMethod">
 ///   hu: Zárás módja
@@ -82,5 +92,10 @@ public sealed record OrderCloseToEmptiesRequest(
 ///   hu: Eredménykód (0 = siker), ha nem, akkor hiba kód
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
+/// </param>
+/// <param name="ErrorMessage">
+///   hu: Hibaüzenet (ha hiba történt)
+///   <br />
+///   en: Error message (if error occurred)
 /// </param>
 public sealed record OrderCloseToEmptiesResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;

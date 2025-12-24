@@ -43,5 +43,10 @@ public record GetOpenIdsRequest(
 ///   <br />
 ///   en: List of unique identifiers of open orders
 /// </param>
+/// <param name="ErrorMessage">
+///   hu: Hibaüzenet (ha hiba történt)
+///   <br />
+///   en: Error message (if error occurred)
+/// </param>
 [PublicAPI]
 public sealed record GetOpenIdsResponse(string RequestId, int ResultCode, IReadOnlyList<string>? OrderIds, string? ErrorMessage = null): IQaeResponse;

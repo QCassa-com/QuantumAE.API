@@ -54,6 +54,16 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Number of retraction lines
 /// </param>
+/// <param name="ResultCode">
+///   hu: Eredménykód (0 = sikeres)
+///   <br />
+///   en: Result code (0 = success)
+/// </param>
+/// <param name="DocumentId">
+///   hu: Bizonylat azonosító
+///   <br />
+///   en: Document identifier
+/// </param>
 [PublicAPI]
 public sealed record OrderCloseToStornoRequest(
   [property: Required]
@@ -96,6 +106,11 @@ public sealed record OrderCloseToStornoRequest(
 ///   hu: Eredménykód (0 = siker), ha nem, akkor hiba kód
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
+/// </param>
+/// <param name="ErrorMessage">
+///   hu: Hibaüzenet (ha hiba történt)
+///   <br />
+///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
 public sealed record OrderCloseToStornoResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;

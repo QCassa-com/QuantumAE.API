@@ -35,5 +35,10 @@ public sealed record RegistrationRequest(string RequestId, string RegistrationNu
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
+/// <param name="ErrorMessage">
+///   hu: Hibaüzenet (ha hiba történt)
+///   <br />
+///   en: Error message (if error occurred)
+/// </param>
 [PublicAPI]
 public sealed record RegistrationResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : INavIResponse;

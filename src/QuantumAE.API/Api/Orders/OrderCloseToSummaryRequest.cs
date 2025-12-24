@@ -34,6 +34,16 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Non-fiscal (informational) rows
 /// </param>
+/// <param name="ResultCode">
+///   hu: Eredménykód (0 = sikeres)
+///   <br />
+///   en: Result code (0 = success)
+/// </param>
+/// <param name="DocumentId">
+///   hu: Bizonylat azonosító
+///   <br />
+///   en: Document identifier
+/// </param>
 [PublicAPI]
 public sealed record OrderCloseToSummaryRequest(
   [property: Required]
@@ -66,5 +76,10 @@ public sealed record OrderCloseToSummaryRequest(
 ///   hu: Eredménykód (0 = siker), ha nem, akkor hiba kód
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
+/// </param>
+/// <param name="ErrorMessage">
+///   hu: Hibaüzenet (ha hiba történt)
+///   <br />
+///   en: Error message (if error occurred)
 /// </param>
 public sealed record OrderCloseToSummaryResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;
