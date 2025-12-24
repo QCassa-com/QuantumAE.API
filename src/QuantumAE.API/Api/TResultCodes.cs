@@ -77,7 +77,21 @@ public enum TControlResult
   ///   <br />
   ///   en: Internal error.
   /// </summary>
-  InternalError
+  InternalError,
+
+  /// <summary>
+  ///   hu: Érvénytelen kérés.
+  ///   <br />
+  ///   en: Invalid request.
+  /// </summary>
+  InvalidRequest,
+
+  /// <summary>
+  ///   hu: Validáció sikertelen.
+  ///   <br />
+  ///   en: Validation failed.
+  /// </summary>
+  ValidationFailed
 }
 
 /// <summary>
