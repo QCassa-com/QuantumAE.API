@@ -12,13 +12,18 @@ namespace QuantumAE.Api.NavI;
 ///   <br />
 ///   en: Unique identifier of the request
 /// </param>
-/// <param name="RegistrationNumber">
-///   hu: NAV regisztrációs szám (AP szám)
+/// <param name="ApNumber">
+///   hu: AP szám (Adóügyi Pénztárgép szám) - a NAV által kiadott azonosító
 ///   <br />
-///   en: NAV registration number (AP number)
+///   en: AP number (Tax Cash Register number) - identifier issued by NAV
+/// </param>
+/// <param name="CommissioningCode">
+///   hu: Üzembe helyezési kód (ÜH kód) - 16 számjegyből álló kód (REQ-075)
+///   <br />
+///   en: Commissioning code - 16-digit code (REQ-075)
 /// </param>
 [PublicAPI]
-public sealed record RegistrationRequest(string RequestId, string RegistrationNumber): INavIRequest;
+public sealed record RegistrationRequest(string RequestId, string ApNumber, string CommissioningCode): INavIRequest;
 
 /// <summary>
 ///   hu: Regisztrációs folyamat indítása válasz.
