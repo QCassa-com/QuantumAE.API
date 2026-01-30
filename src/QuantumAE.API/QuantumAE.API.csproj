@@ -6,7 +6,7 @@
         <RootNamespace>QuantumAE</RootNamespace>
         <LangVersion>default</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Configurations>AE, MOCK, Debug;AE;MOCK;Debug AE MOCK;AE Mock Debug;AE Development Debug;AE Release;JOKER-Q Release;AE Debug;JOKER-Q Debug</Configurations>
+        <Configurations>AE, MOCK, Debug;AE;MOCK;Debug AE MOCK;AE Mock Debug;AE Development Debug;AE Release;JOKER-Q Release;AE Debug;JOKER-Q Debug;AE Development Release</Configurations>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
@@ -40,6 +40,12 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'JOKER-Q Debug' ">
+      <DocumentationFile>bin\Debug\net10.0\QuantumAE.API.xml</DocumentationFile>
+      <DebugSymbols Condition=" '$(DebugSymbols)' == '' ">true</DebugSymbols>
+      <Optimize Condition=" '$(Optimize)' == '' ">false</Optimize>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'AE Development Release' ">
       <DocumentationFile>bin\Debug\net10.0\QuantumAE.API.xml</DocumentationFile>
       <DebugSymbols Condition=" '$(DebugSymbols)' == '' ">true</DebugSymbols>
       <Optimize Condition=" '$(Optimize)' == '' ">false</Optimize>
