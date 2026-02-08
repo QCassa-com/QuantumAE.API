@@ -46,4 +46,4 @@ public record ConnectRequest(string RequestId, string ApNumber): IControlsReques
 ///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public record ConnectResponse(string RequestId, int ResultCode, string SessionId, string? ErrorMessage = null) : IControlsResponse;
+public record ConnectResponse(string RequestId, int ResultCode, string SessionId, string? ErrorMessage = null) : IQaeResponse;

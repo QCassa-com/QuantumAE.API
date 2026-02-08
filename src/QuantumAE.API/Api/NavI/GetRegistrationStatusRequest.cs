@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using QuantumAE.Validation;
 
 namespace QuantumAE.Api.NavI;
 
@@ -10,7 +11,11 @@ namespace QuantumAE.Api.NavI;
 /// </summary>
 /// <param name="RequestId"></param>
 [PublicAPI]
-public sealed record GetRegistrationStatusRequest(string RequestId) : INavIRequest;
+public sealed record GetRegistrationStatusRequest(
+  [property: Required]
+  [property: NotEmptyString]
+  string RequestId
+) : INavIRequest;
 
 /// <summary>
 ///   hu: Regisztrációs státusz lekérdezés válasz

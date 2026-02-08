@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using QuantumAE.Validation;
 
 namespace QuantumAE.Api.NavI;
 
@@ -13,7 +14,11 @@ namespace QuantumAE.Api.NavI;
 ///   en: Unique identifier of the request
 /// </param>
 [PublicAPI]
-public sealed record RenewCertificatesRequest(string RequestId): INavIRequest;
+public sealed record RenewCertificatesRequest(
+  [property: Required]
+  [property: NotEmptyString]
+  string RequestId
+): INavIRequest;
 
 /// <summary>
 ///   hu: Tanúsítvány megújítási válasz

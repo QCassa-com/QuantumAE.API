@@ -98,4 +98,5 @@ public sealed record OrderCloseToEmptiesRequest(
 ///   <br />
 ///   en: Error message (if error occurred)
 /// </param>
+[PublicAPI]
 public sealed record OrderCloseToEmptiesResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;

@@ -1,3 +1,6 @@
+using JetBrains.Annotations;
+using QuantumAE.Validation;
+
 namespace QuantumAE.Api.Device;
 
 /// <summary>
@@ -13,7 +16,18 @@ namespace QuantumAE.Api.Device;
 /// <remarks>
 ///   GET /device/getDateTime?RequestId={ARequestId}
 /// </remarks>
-public record GetDateTimeRequest(string RequestId) : IDeviceRequest;
+[PublicAPI]
+public record GetDateTimeRequest(string RequestId) : IDeviceRequest
+{
+  /// <summary>
+  ///   hu: Kérés egyedi azonosítója
+  ///   <br />
+  ///   en: Unique request identifier
+  /// </summary>
+  [Required]
+  [NotEmptyString]
+  public string RequestId { get; init; } = RequestId;
+}
 
 /// <summary>
 ///   hu: Dátum és idő lekérdezése válasz

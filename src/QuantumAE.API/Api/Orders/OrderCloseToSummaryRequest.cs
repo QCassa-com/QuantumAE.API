@@ -82,4 +82,5 @@ public sealed record OrderCloseToSummaryRequest(
 ///   <br />
 ///   en: Error message (if error occurred)
 /// </param>
+[PublicAPI]
 public sealed record OrderCloseToSummaryResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;
