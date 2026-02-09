@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 
-namespace QuantumAE.Api.Orders;
+namespace QuantumAE.Models;
 
 /// <summary>
 ///   hu: Nyugta típusa (ha van)

@@ -1,5 +1,6 @@
 
 using JetBrains.Annotations;
+using QuantumAE.Models;
 using QuantumAE.Validation;
 
 namespace QuantumAE.Api.Orders;

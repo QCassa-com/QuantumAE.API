@@ -1,24 +1,29 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using QuantumAE.Validation.Resources;
 
 namespace QuantumAE.Validation;
 
 /// <summary>
-/// hu: Validációs attribútum, amely ellenőrzi, hogy a string nem üres és nem csak whitespace.
-/// Különbözik a [Required]-tól: null értéket elfogad, de üres stringet nem.
-/// <br />
-/// en: Validation attribute that checks if a string is not empty and not whitespace only.
-/// Differs from [Required]: accepts null but not empty string.
+///   hu: AP szám (Adóügyi Pénztárgép szám) formátum validáció.
+///   Formátum: 9 karakter, az első betű B-X (A, Y, Z kizárva), a többi 8 számjegy (0-9).
+///   Regex: ^[B-X][0-9]{8}$
+///   <br />
+///   en: AP number (Tax Cash Register number) format validation.
+///   Format: 9 characters, first letter B-X (A, Y, Z excluded), remaining 8 digits (0-9).
+///   Regex: ^[B-X][0-9]{8}$
 /// </summary>
 [PublicAPI]
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
-public sealed class NotEmptyStringAttribute : ValidationAttribute
+public sealed partial class ApNumberAttribute : ValidationAttribute
 {
+  [GeneratedRegex(@"^[B-X][0-9]{8}$")]
+  private static partial Regex ApNumberRegex();
+
   /// <inheritdoc />
   protected override ValidationResult? IsValid(object? AValue, ValidationContext AValidationContext)
   {
-    // Null értékek elfogadása (használj [Required]-et ha kötelező)
     if (AValue == null)
       return ValidationResult.Success;
 
@@ -30,8 +35,11 @@ public sealed class NotEmptyStringAttribute : ValidationAttribute
     }
 
     if (string.IsNullOrWhiteSpace(stringValue))
+      return ValidationResult.Success;
+
+    if (!ApNumberRegex().IsMatch(stringValue))
     {
-      var message = this.FormatMessage(ValidationMessages.NotEmptyString, AValidationContext.DisplayName);
+      var message = this.FormatMessage(ValidationMessages.ApNumber, AValidationContext.DisplayName);
       return new ValidationResult(message, [AValidationContext.MemberName!]);
     }
 

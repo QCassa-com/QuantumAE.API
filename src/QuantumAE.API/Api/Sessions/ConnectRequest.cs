@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
+using QuantumAE.Validation;
 
-namespace QuantumAE.Api.Controls;
+namespace QuantumAE.Api.Sessions;
 
 /// <summary>
 ///   hu: Pénztárgép csatlakoztatása az Adóügyi Egységhez.
@@ -18,7 +19,16 @@ namespace QuantumAE.Api.Controls;
 ///   en: AP number
 /// </param>
 [PublicAPI]
-public record ConnectRequest(string RequestId, string ApNumber): IControlsRequest;
+public sealed record ConnectRequest(
+  [property: Required]
+  [property: NotEmptyString]
+  string RequestId,
+
+  [property: Required]
+  [property: NotEmptyString]
+  [property: ApNumber]
+  string ApNumber
+) : ISessionsRequest;
 
 /// <summary>
 ///  hu: Csatlakozás válasz
@@ -46,4 +56,4 @@ public record ConnectRequest(string RequestId, string ApNumber): IControlsReques
 ///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public record ConnectResponse(string RequestId, int ResultCode, string SessionId, string? ErrorMessage = null) : IQaeResponse;
+public record ConnectResponse(string RequestId, int ResultCode, string SessionId, string? ErrorMessage = null) : ISessionsResponse;

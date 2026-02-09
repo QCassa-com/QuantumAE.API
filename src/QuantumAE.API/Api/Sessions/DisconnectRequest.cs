@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
+using QuantumAE.Validation;
 
-namespace QuantumAE.Api.Controls;
+namespace QuantumAE.Api.Sessions;
 
 /// <summary>
 ///   hu: Kapcsolat bontási kérés rekord
@@ -18,7 +19,11 @@ namespace QuantumAE.Api.Controls;
 ///   en: Token = SessionId
 /// </remarks>
 [PublicAPI]
-public record DisconnectRequest(string RequestId): IControlsRequest;
+public record DisconnectRequest(
+  [property: Required]
+  [property: NotEmptyString]
+  string RequestId
+) : ISessionsRequest;
 
 
 /// <summary>
@@ -42,4 +47,4 @@ public record DisconnectRequest(string RequestId): IControlsRequest;
 ///   en: Error message (if any)
 /// </param>
 [PublicAPI]
-public record DisconnectResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IControlsResponse;
+public record DisconnectResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : ISessionsResponse;

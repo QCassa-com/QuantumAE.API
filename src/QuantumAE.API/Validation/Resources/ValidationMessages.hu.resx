@@ -96,6 +96,11 @@
     <value>A(z) '{0}' mező értékének kisebbnek kell lennie, mint {1}.</value>
   </data>
 
+  <!-- ApNumber validation -->
+  <data name="ApNumber" xml:space="preserve">
+    <value>A(z) '{0}' mező érvényes AP szám kell legyen (9 karakter: első betű B-X, utána 8 számjegy).</value>
+  </data>
+
   <!-- Order-specific messages -->
   <data name="Order_RequestIdRequired" xml:space="preserve">
     <value>A RequestId megadása kötelező.</value>

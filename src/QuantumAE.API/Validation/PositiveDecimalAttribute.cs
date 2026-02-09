@@ -44,43 +44,19 @@ public sealed class PositiveDecimalAttribute(bool AAllowZero = false) : Validati
 
     if (decimalValue == null)
     {
-      var notNumericMessage = GetFormattedErrorMessage(AValidationContext.DisplayName, "NotNumeric");
-      return new ValidationResult(notNumericMessage, [AValidationContext.MemberName!]);
+      var message = this.FormatMessage(ValidationMessages.PositiveDecimal_NotNumeric, AValidationContext.DisplayName);
+      return new ValidationResult(message, [AValidationContext.MemberName!]);
     }
 
     var isValid = AllowZero ? decimalValue >= 0 : decimalValue > 0;
 
     if (!isValid)
     {
-      var messageKey = AllowZero ? "AllowZero" : "Default";
-      var message = GetFormattedErrorMessage(AValidationContext.DisplayName, messageKey);
+      var template = AllowZero ? ValidationMessages.PositiveDecimal_AllowZero : ValidationMessages.PositiveDecimal;
+      var message = this.FormatMessage(template, AValidationContext.DisplayName);
       return new ValidationResult(message, [AValidationContext.MemberName!]);
     }
 
     return ValidationResult.Success;
-  }
-
-  /// <summary>
-  /// hu: Formázott hibaüzenet generálása
-  /// <br />
-  /// en: Generate formatted error message
-  /// </summary>
-  private string GetFormattedErrorMessage(string ADisplayName, string AMessageKey)
-  {
-    // Ha explicit ErrorMessage van megadva, azt használjuk
-    if (!string.IsNullOrEmpty(ErrorMessage))
-    {
-      return string.Format(ErrorMessage, ADisplayName);
-    }
-
-    // Egyébként a lokalizált üzenetet használjuk
-    var template = AMessageKey switch
-    {
-      "NotNumeric" => ValidationMessages.PositiveDecimal_NotNumeric,
-      "AllowZero" => ValidationMessages.PositiveDecimal_AllowZero,
-      _ => ValidationMessages.PositiveDecimal
-    };
-
-    return string.Format(template, ADisplayName);
   }
 }

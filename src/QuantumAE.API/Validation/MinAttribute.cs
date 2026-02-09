@@ -76,7 +76,7 @@ public sealed class MinAttribute : ValidationAttribute
     if (doubleValue == null)
     {
       return new ValidationResult(
-        GetFormattedErrorMessage(AValidationContext.DisplayName, "NotNumeric"),
+        this.FormatMessage(ValidationMessages.PositiveDecimal_NotNumeric, AValidationContext.DisplayName),
         [AValidationContext.MemberName!]);
     }
 
@@ -86,27 +86,12 @@ public sealed class MinAttribute : ValidationAttribute
 
     if (!isValid)
     {
-      var messageKey = Exclusive ? "Exclusive" : "Default";
+      var template = Exclusive ? ValidationMessages.Min_Exclusive : ValidationMessages.Min;
       return new ValidationResult(
-        GetFormattedErrorMessage(AValidationContext.DisplayName, messageKey),
+        this.FormatMessage(template, AValidationContext.DisplayName, Minimum),
         [AValidationContext.MemberName!]);
     }
 
     return ValidationResult.Success;
-  }
-
-  private string GetFormattedErrorMessage(string ADisplayName, string AMessageKey)
-  {
-    if (!string.IsNullOrEmpty(ErrorMessage))
-      return string.Format(ErrorMessage, ADisplayName, Minimum);
-
-    var template = AMessageKey switch
-    {
-      "NotNumeric" => ValidationMessages.PositiveDecimal_NotNumeric,
-      "Exclusive" => ValidationMessages.Min_Exclusive,
-      _ => ValidationMessages.Min
-    };
-
-    return string.Format(template, ADisplayName, Minimum);
   }
 }

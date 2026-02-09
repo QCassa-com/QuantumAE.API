@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using QuantumAE.Validation;
 
 namespace QuantumAE.Api.Controls;
 
@@ -73,10 +74,17 @@ public enum TXsdSchemaTypeApi
 ///   en: The XSD content Base64 encoded.
 /// </param>
 [PublicAPI]
-public record UpdateXsdSchemaRequest(
+public sealed record UpdateXsdSchemaRequest(
+  [property: Required]
+  [property: NotEmptyString]
   string RequestId,
+
   TXsdSchemaTypeApi SchemaType,
-  string XsdContent) : IControlsRequest;
+
+  [property: Required]
+  [property: NotEmptyString]
+  string XsdContent
+) : IControlsRequest;
 
 /// <summary>
 ///   hu: XSD séma frissítés válasz.
@@ -121,7 +129,11 @@ public record UpdateXsdSchemaResponse(
 ///   en: Unique identifier of the request.
 /// </param>
 [PublicAPI]
-public record GetXsdVersionsRequest(string RequestId) : IControlsRequest;
+public sealed record GetXsdVersionsRequest(
+  [property: Required]
+  [property: NotEmptyString]
+  string RequestId
+) : IControlsRequest;
 
 /// <summary>
 ///   hu: XSD séma verziók válasz.
@@ -176,10 +188,17 @@ public record GetXsdVersionsResponse(
 ///   en: The XML content Base64 encoded.
 /// </param>
 [PublicAPI]
-public record ValidateXmlRequest(
+public sealed record ValidateXmlRequest(
+  [property: Required]
+  [property: NotEmptyString]
   string RequestId,
+
   TXsdSchemaTypeApi SchemaType,
-  string XmlContent) : IControlsRequest;
+
+  [property: Required]
+  [property: NotEmptyString]
+  string XmlContent
+) : IControlsRequest;
 
 /// <summary>
 ///   hu: XSD validációs hiba.

@@ -76,7 +76,7 @@ public sealed class MaxAttribute : ValidationAttribute
     if (doubleValue == null)
     {
       return new ValidationResult(
-        GetFormattedErrorMessage(AValidationContext.DisplayName, "NotNumeric"),
+        this.FormatMessage(ValidationMessages.PositiveDecimal_NotNumeric, AValidationContext.DisplayName),
         [AValidationContext.MemberName!]);
     }
 
@@ -86,27 +86,12 @@ public sealed class MaxAttribute : ValidationAttribute
 
     if (!isValid)
     {
-      var messageKey = Exclusive ? "Exclusive" : "Default";
+      var template = Exclusive ? ValidationMessages.Max_Exclusive : ValidationMessages.Max;
       return new ValidationResult(
-        GetFormattedErrorMessage(AValidationContext.DisplayName, messageKey),
+        this.FormatMessage(template, AValidationContext.DisplayName, Maximum),
         [AValidationContext.MemberName!]);
     }
 
     return ValidationResult.Success;
-  }
-
-  private string GetFormattedErrorMessage(string ADisplayName, string AMessageKey)
-  {
-    if (!string.IsNullOrEmpty(ErrorMessage))
-      return string.Format(ErrorMessage, ADisplayName, Maximum);
-
-    var template = AMessageKey switch
-    {
-      "NotNumeric" => ValidationMessages.PositiveDecimal_NotNumeric,
-      "Exclusive" => ValidationMessages.Max_Exclusive,
-      _ => ValidationMessages.Max
-    };
-
-    return string.Format(template, ADisplayName, Maximum);
   }
 }

@@ -96,6 +96,11 @@
     <value>The field '{0}' must be less than {1}.</value>
   </data>
 
+  <!-- ApNumber validation -->
+  <data name="ApNumber" xml:space="preserve">
+    <value>The field '{0}' must be a valid AP number (9 characters: first letter B-X, followed by 8 digits).</value>
+  </data>
+
   <!-- Order-specific messages -->
   <data name="Order_RequestIdRequired" xml:space="preserve">
     <value>RequestId is required.</value>

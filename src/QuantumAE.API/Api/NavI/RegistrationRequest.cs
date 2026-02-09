@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using QuantumAE.Validation;
 
 namespace QuantumAE.Api.NavI;
 
@@ -23,7 +24,21 @@ namespace QuantumAE.Api.NavI;
 ///   en: Registration number (commissioning code) - 16-digit code (REQ-075)
 /// </param>
 [PublicAPI]
-public sealed record RegistrationRequest(string RequestId, string ApNumber, string RegistrationNumber): INavIRequest;
+public sealed record RegistrationRequest(
+  [property: Required]
+  [property: NotEmptyString]
+  string RequestId,
+
+  [property: Required]
+  [property: NotEmptyString]
+  [property: ApNumber]
+  string ApNumber,
+
+  [property: Required]
+  [property: NotEmptyString]
+  [property: StringLength(16, MinimumLength = 16)]
+  string RegistrationNumber
+) : INavIRequest;
 
 /// <summary>
 ///   hu: Regisztrációs folyamat indítása válasz.

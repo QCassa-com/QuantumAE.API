@@ -117,6 +117,11 @@ public static class ValidationMessages
   public static string Max_Exclusive => ResourceManager.GetString("Max_Exclusive", Culture) ?? "The field '{0}' must be less than {1}.";
 
   /// <summary>
+  /// hu: The field '{0}' must be a valid AP number.
+  /// </summary>
+  public static string ApNumber => ResourceManager.GetString("ApNumber", Culture) ?? "The field '{0}' must be a valid AP number (9 characters: first letter B-X, followed by 8 digits).";
+
+  /// <summary>
   /// hu: RequestId is required.
   /// </summary>
   public static string Order_RequestIdRequired => ResourceManager.GetString("Order_RequestIdRequired", Culture) ?? "RequestId is required.";

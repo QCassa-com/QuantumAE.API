@@ -43,30 +43,11 @@ public sealed class RequiredIfEmptyAttribute(string AOtherProperty) : Validation
 
     if (currentIsEmpty && otherIsEmpty)
     {
-      var displayName = AValidationContext.DisplayName;
-      var message = GetFormattedErrorMessage(displayName, OtherProperty);
+      var message = this.FormatMessage(ValidationMessages.RequiredIfEmpty, AValidationContext.DisplayName, OtherProperty);
       return new ValidationResult(message, [AValidationContext.MemberName!]);
     }
 
     return ValidationResult.Success;
-  }
-
-  /// <summary>
-  /// hu: Formázott hibaüzenet generálása
-  /// <br />
-  /// en: Generate formatted error message
-  /// </summary>
-  private string GetFormattedErrorMessage(string ADisplayName, string AOtherPropertyName)
-  {
-    // Ha explicit ErrorMessage van megadva, azt használjuk
-    if (!string.IsNullOrEmpty(ErrorMessage))
-    {
-      return string.Format(ErrorMessage, ADisplayName, AOtherPropertyName);
-    }
-
-    // Egyébként a lokalizált üzenetet használjuk
-    var template = ValidationMessages.RequiredIfEmpty;
-    return string.Format(template, ADisplayName, AOtherPropertyName);
   }
 
   private static bool IsEmpty(object? AValue)
