@@ -14,7 +14,7 @@ namespace QuantumAE.Api.NavI;
 ///   en: Unique identifier of the request
 /// </param>
 [PublicAPI]
-public sealed record RenewCertificatesRequest(
+public sealed record RegistrationRenewRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId
@@ -26,4 +26,4 @@ public sealed record RenewCertificatesRequest(
 ///   en: Certificate renewal response
 /// </summary>
 [PublicAPI]
-public sealed record RenewCertificatesResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : INavIResponse;
+public sealed record RegistrationRenewResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : INavIResponse;

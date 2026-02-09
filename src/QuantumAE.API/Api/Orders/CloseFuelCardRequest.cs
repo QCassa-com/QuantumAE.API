@@ -56,7 +56,7 @@ namespace QuantumAE.Api.Orders;
 ///   en: Number of retraction lines
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToFuelCardRequest(
+public sealed record CloseFuelCardRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -114,7 +114,7 @@ public sealed record OrderCloseToFuelCardRequest(
 ///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToFuelCardResponse(
+public sealed record CloseFuelCardResponse(
   string RequestId,
   int ResultCode,
   string? DocumentId = null,

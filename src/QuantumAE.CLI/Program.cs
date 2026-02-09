@@ -229,7 +229,7 @@ static int HandleOrder(string[] args)
                     return ShowOrderHelp();
                 }
                 var reqId = GetOpt("--request") ?? Guid.NewGuid().ToString("N");
-                var req = new OrderOpenRequest(reqId, orderId!);
+                var req = new OpenRequest(reqId, orderId!);
                 var res = client.OpenAsync(req).GetAwaiter().GetResult();
                 AnsiConsole.MarkupLine($"[green]Open OK[/] RequestId={res.RequestId}, ResultCode={res.ResultCode}");
                 return 0;
@@ -283,7 +283,7 @@ static int HandleOrder(string[] args)
                     Total = qty * price,
                     VatCode = vatCode
                 };
-                var req = new OrderItemsAddRequest(reqId, orderId!, item);
+                var req = new ItemsAddRequest(reqId, orderId!, item);
                 var res = client.ItemAddAsync(req).GetAwaiter().GetResult();
                 AnsiConsole.MarkupLine($"[green]Item added[/] RequestId={res.RequestId}, ResultCode={res.ResultCode}");
                 return 0;

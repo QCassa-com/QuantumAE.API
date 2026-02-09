@@ -1,13 +1,14 @@
+
 using JetBrains.Annotations;
-using QuantumAE.Models;
 using QuantumAE.Validation;
 
 namespace QuantumAE.Api.Orders;
 
+
 /// <summary>
-///   hu: Egy tétel hozzáadása a rendeléshez
+///   hu: Rendelés zárása egészségségkártya bizonylatként.
 ///   <br />
-///   en: Add an item to the order
+///   en: Order close as health card receipt.
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -15,33 +16,26 @@ namespace QuantumAE.Api.Orders;
 ///   en: Unique identifier of the request
 /// </param>
 /// <param name="OrderId">
-///   hu: Rendelés egyedi azonosítója
+///   hu: A lezárandó rendelés egyedi azonosítója az Adóügyi Egységben
 ///   <br />
-///   en: Unique identifier of the order
-/// </param>
-/// <param name="Item">
-///   hu: Hozzáadandó tétel adatai
-///   <br />
-///   en: Data of the item to be added
+///   en: Unique identifier of the order to be closed in the Tax Unit
 /// </param>
 [PublicAPI]
-public sealed record OrderItemsAddRequest(
+public record CloseHealthCardRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
 
   [property: Required]
   [property: NotEmptyString]
-  string OrderId,
-
-  [property: Required]
-  TOrderItem Item
+  string OrderId
 ) : IOrderRequest;
 
+
 /// <summary>
-///   hu: Tétel hozzáadás válasz
+///   hu: Rendelés zárása egészségségkártya bizonylatként válasz.
 ///   <br />
-///   en: Item addition response
+///   en: Order close as health card receipt response.
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -49,7 +43,7 @@ public sealed record OrderItemsAddRequest(
 ///   en: Unique identifier of the request
 /// </param>
 /// <param name="ResultCode">
-///   hu: Eredménykód (0 = siker), különben hiba kód
+///   hu: Eredménykód (0 = siker), ha nem, akkor hiba kód
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
@@ -59,4 +53,4 @@ public sealed record OrderItemsAddRequest(
 ///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public sealed record OrderItemsAddResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;
+public record CloseHealthCardResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;

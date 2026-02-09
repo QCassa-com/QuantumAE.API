@@ -74,7 +74,7 @@ public enum TXsdSchemaTypeApi
 ///   en: The XSD content Base64 encoded.
 /// </param>
 [PublicAPI]
-public sealed record UpdateXsdSchemaRequest(
+public sealed record XsdUpdateRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -112,7 +112,7 @@ public sealed record UpdateXsdSchemaRequest(
 ///   en: Error message (if error occurred).
 /// </param>
 [PublicAPI]
-public record UpdateXsdSchemaResponse(
+public record XsdUpdateResponse(
   string RequestId,
   int ResultCode,
   string? SchemaVersion = null,
@@ -129,7 +129,7 @@ public record UpdateXsdSchemaResponse(
 ///   en: Unique identifier of the request.
 /// </param>
 [PublicAPI]
-public sealed record GetXsdVersionsRequest(
+public sealed record XsdVersionsRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId
@@ -161,7 +161,7 @@ public sealed record GetXsdVersionsRequest(
 ///   en: Error message (if error occurred).
 /// </param>
 [PublicAPI]
-public record GetXsdVersionsResponse(
+public record XsdVersionsResponse(
   string RequestId,
   int ResultCode,
   IReadOnlyDictionary<TXsdSchemaTypeApi, string>? Versions = null,
@@ -188,7 +188,7 @@ public record GetXsdVersionsResponse(
 ///   en: The XML content Base64 encoded.
 /// </param>
 [PublicAPI]
-public sealed record ValidateXmlRequest(
+public sealed record XsdValidateRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -262,7 +262,7 @@ public record TXsdValidationErrorApi(
 ///   en: Error message (if system error occurred).
 /// </param>
 [PublicAPI]
-public record ValidateXmlResponse(
+public record XsdValidateResponse(
   string RequestId,
   int ResultCode,
   bool IsValid = false,

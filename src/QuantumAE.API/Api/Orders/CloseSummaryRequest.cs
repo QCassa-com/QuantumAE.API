@@ -6,9 +6,9 @@ using QuantumAE.Validation;
 namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: Rendelés zárása göngyölegjegyként
+///   hu: Rendelés zárása összesítő bizonylatként
 ///   <br />
-///   en: Order close as empties receipt
+///   en: Closing an order as a summary document
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -20,10 +20,10 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Unique identifier of the order to be closed in the Tax Unit
 /// </param>
-/// <param name="Pay">
-///   hu: Fizetés adatai (opcionális, alapért.: készpénz = végösszeg)
+/// <param name="NonFiscalRows">
+///   hu: Nemfiskális (információs) sorok
 ///   <br />
-///   en: Payment info (optional, default: cash = total)
+///   en: Non-fiscal (informational) rows
 /// </param>
 /// <param name="DocumentId">
 ///   hu: Bizonylat azonosító
@@ -40,18 +40,8 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Document general info
 /// </param>
-/// <param name="Cut">
-///   hu: Vágás jelzése
-///   <br />
-///   en: Indication of cutting
-/// </param>
-/// <param name="Retraction">
-///   hu: Visszahúzás sorok száma
-///   <br />
-///   en: Number of retraction lines
-/// </param>
 [PublicAPI]
-public sealed record OrderCloseToEmptiesRequest(
+public sealed record CloseSummaryRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -60,21 +50,16 @@ public sealed record OrderCloseToEmptiesRequest(
   [property: NotEmptyString]
   string OrderId,
 
-  TPayment? Pay = null,
+  TNonFiscalRows? NonFiscalRows = null,
   string? DocumentId = null,
   TCloseMethod? CloseMethod = null,
-  TDocumentGeneral? DocumentGeneral = null,
-  bool? Cut = null,
-
-  [property: Range(0, 100)]
-  int? Retraction = null
+  TDocumentGeneral? DocumentGeneral = null
 ) : IOrderRequest;
 
-
 /// <summary>
-///   hu: Rendelés zárása göngyölegjegyként válasz
+///   hu: Rendelés zárása összesítő bizonylatként válasz
 ///   <br />
-///   en: Order close as empties receipt response
+///   en: Closing an order as a summary document response
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -107,7 +92,7 @@ public sealed record OrderCloseToEmptiesRequest(
 ///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToEmptiesResponse(
+public sealed record CloseSummaryResponse(
   string RequestId,
   int ResultCode,
   string? DocumentId = null,

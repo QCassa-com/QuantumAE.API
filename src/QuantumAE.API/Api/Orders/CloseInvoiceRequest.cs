@@ -5,9 +5,9 @@ using QuantumAE.Validation;
 namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: Rendelés zárása visszáru bizonylatként
+///   hu: Rendelés zárása számlaként
 ///   <br />
-///   en: Closing an order as a return document
+///   en: Close order as invoice
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -19,15 +19,10 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Unique identifier of the order to be closed in the Tax Unit
 /// </param>
-/// <param name="ReturnInfo">
-///   hu: Visszáru adatai (kötelező)
-///   <br />
-///   en: Return information (required)
-/// </param>
 /// <param name="Customer">
-///   hu: Vevő adatai (opcionális)
+///   hu: Vevő adatai (kötelező számlánál, min. VatStatus)
 ///   <br />
-///   en: Customer data (optional)
+///   en: Customer data (required for invoices, min. VatStatus)
 /// </param>
 /// <param name="Pay">
 ///   hu: Fizetés adatai (opcionális, alapért.: készpénz = végösszeg)
@@ -40,9 +35,9 @@ namespace QuantumAE.Api.Orders;
 ///   en: Document identifier
 /// </param>
 /// <param name="CloseMethod">
-///   hu: Zárás módja
+///   hu: Zárás módja (opcionális, alapért.: Print)
 ///   <br />
-///   en: Close method
+///   en: Close method (optional, default: Print)
 /// </param>
 /// <param name="DocumentGeneral">
 ///   hu: Dokumentum általános adatai
@@ -60,7 +55,7 @@ namespace QuantumAE.Api.Orders;
 ///   en: Number of retraction lines
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToReturnRequest(
+public sealed record CloseInvoiceRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -70,9 +65,8 @@ public sealed record OrderCloseToReturnRequest(
   string OrderId,
 
   [property: Required]
-  TReturnInfo ReturnInfo,
+  TCustomer Customer,
 
-  TCustomer? Customer = null,
   TPayment? Pay = null,
   string? DocumentId = null,
   TCloseMethod? CloseMethod = null,
@@ -85,9 +79,9 @@ public sealed record OrderCloseToReturnRequest(
 
 
 /// <summary>
-///   hu: Rendelés zárása visszáru bizonylatként - válasz
+///   hu: Rendelés zárása számlaként válasz
 ///   <br />
-///   en: Closing an order as a return document - response
+///   en: Close order as invoice response
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -120,7 +114,7 @@ public sealed record OrderCloseToReturnRequest(
 ///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToReturnResponse(
+public sealed record CloseInvoiceResponse(
   string RequestId,
   int ResultCode,
   string? DocumentId = null,

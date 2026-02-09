@@ -1,14 +1,12 @@
-
 using JetBrains.Annotations;
 using QuantumAE.Validation;
 
 namespace QuantumAE.Api.Orders;
 
-
 /// <summary>
-///   hu: Rendelés zárása egészségségkártya bizonylatként.
+///   hu: Rendelés nyitási kérés
 ///   <br />
-///   en: Order close as health card receipt.
+///   en: Order opening request
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -16,12 +14,12 @@ namespace QuantumAE.Api.Orders;
 ///   en: Unique identifier of the request
 /// </param>
 /// <param name="OrderId">
-///   hu: A lezárandó rendelés egyedi azonosítója az Adóügyi Egységben
+///   hu: Rendelés egyedi azonosítója
 ///   <br />
-///   en: Unique identifier of the order to be closed in the Tax Unit
+///   en: Unique identifier of the order
 /// </param>
 [PublicAPI]
-public record OrderCloseToHealthCardRequest(
+public sealed record OpenRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -31,11 +29,10 @@ public record OrderCloseToHealthCardRequest(
   string OrderId
 ) : IOrderRequest;
 
-
 /// <summary>
-///   hu: Rendelés zárása egészségségkártya bizonylatként válasz.
+///   hu: Rendelés nyitási válasz
 ///   <br />
-///   en: Order close as health card receipt response.
+///   en: Order opening response
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -43,7 +40,7 @@ public record OrderCloseToHealthCardRequest(
 ///   en: Unique identifier of the request
 /// </param>
 /// <param name="ResultCode">
-///   hu: Eredménykód (0 = siker), ha nem, akkor hiba kód
+///   hu: Eredménykód (0 = siker), különben hiba kód
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
@@ -53,4 +50,4 @@ public record OrderCloseToHealthCardRequest(
 ///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public record OrderCloseToHealthCardResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;
+public sealed record OpenResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;

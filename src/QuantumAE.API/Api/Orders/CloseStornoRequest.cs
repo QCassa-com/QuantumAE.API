@@ -5,9 +5,9 @@ using QuantumAE.Validation;
 namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: Rendelés zárása nyugtaként
+///   hu: Rendelés zárása sztornó bizonylatként
 ///   <br />
-///   en: Closing order as receipt
+///   en: Closing an order as a storno document
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -19,13 +19,28 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Unique identifier of the order to be closed in the Tax Unit
 /// </param>
+/// <param name="StornoInfo">
+///   hu: Sztornó adatai (kötelező)
+///   <br />
+///   en: Storno information (required)
+/// </param>
+/// <param name="Customer">
+///   hu: Vevő adatai (opcionális)
+///   <br />
+///   en: Customer data (optional)
+/// </param>
+/// <param name="Pay">
+///   hu: Fizetés adatai (opcionális, alapért.: készpénz = végösszeg)
+///   <br />
+///   en: Payment info (optional, default: cash = total)
+/// </param>
 /// <param name="DocumentId">
 ///   hu: Bizonylat azonosító
 ///   <br />
 ///   en: Document identifier
 /// </param>
 /// <param name="CloseMethod">
-///   hu: Zárási módja
+///   hu: Zárás módja
 ///   <br />
 ///   en: Close method
 /// </param>
@@ -33,11 +48,6 @@ namespace QuantumAE.Api.Orders;
 ///   hu: Dokumentum általános adatai
 ///   <br />
 ///   en: Document general info
-/// </param>
-/// <param name="Pay">
-///   hu: Fizetés adatai
-///   <br />
-///   en: Payment info
 /// </param>
 /// <param name="Cut">
 ///   hu: Vágás jelzése
@@ -49,13 +59,8 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Number of retraction lines
 /// </param>
-/// <param name="ReceiptType">
-///   hu: Nyugta típusa (ha van)
-///   <br />
-///   en: Receipt type (if any)
-/// </param>
 [PublicAPI]
-public sealed record OrderCloseToReceiptRequest(
+public sealed record CloseStornoRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -64,23 +69,25 @@ public sealed record OrderCloseToReceiptRequest(
   [property: NotEmptyString]
   string OrderId,
 
-  string? DocumentId,
-  TCloseMethod? CloseMethod,
-  TDocumentGeneral? DocumentGeneral,
-  TPayment? Pay,
-  bool? Cut,
+  [property: Required]
+  TStornoInfo StornoInfo,
+
+  TCustomer? Customer = null,
+  TPayment? Pay = null,
+  string? DocumentId = null,
+  TCloseMethod? CloseMethod = null,
+  TDocumentGeneral? DocumentGeneral = null,
+  bool? Cut = null,
 
   [property: Range(0, 100)]
-  int? Retraction,
-
-  TReceiptType? ReceiptType
+  int? Retraction = null
 ) : IOrderRequest;
 
 
 /// <summary>
-///   hu: Rendelés zárása nyugtaként válasz
+///   hu: Rendelés zárása sztornó bizonylatként válasz
 ///   <br />
-///   en: Closing order as receipt response
+///   en: Closing an order as a storno document response
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -108,12 +115,12 @@ public sealed record OrderCloseToReceiptRequest(
 ///   en: True if document was saved offline (NAV unreachable)
 /// </param>
 /// <param name="ErrorMessage">
-///   hu: Hibaüzenet (hiba esetén)
+///   hu: Hibaüzenet (ha hiba történt)
 ///   <br />
-///   en: Error message (on error)
+///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToReceiptResponse(
+public sealed record CloseStornoResponse(
   string RequestId,
   int ResultCode,
   string? DocumentId = null,

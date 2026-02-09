@@ -5,9 +5,9 @@ using QuantumAE.Validation;
 namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: Rendelés zárása sztornó bizonylatként
+///   hu: Rendelés zárása visszáru bizonylatként
 ///   <br />
-///   en: Closing an order as a storno document
+///   en: Closing an order as a return document
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -19,10 +19,10 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Unique identifier of the order to be closed in the Tax Unit
 /// </param>
-/// <param name="StornoInfo">
-///   hu: Sztornó adatai (kötelező)
+/// <param name="ReturnInfo">
+///   hu: Visszáru adatai (kötelező)
 ///   <br />
-///   en: Storno information (required)
+///   en: Return information (required)
 /// </param>
 /// <param name="Customer">
 ///   hu: Vevő adatai (opcionális)
@@ -60,7 +60,7 @@ namespace QuantumAE.Api.Orders;
 ///   en: Number of retraction lines
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToStornoRequest(
+public sealed record CloseReturnRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -70,7 +70,7 @@ public sealed record OrderCloseToStornoRequest(
   string OrderId,
 
   [property: Required]
-  TStornoInfo StornoInfo,
+  TReturnInfo ReturnInfo,
 
   TCustomer? Customer = null,
   TPayment? Pay = null,
@@ -85,9 +85,9 @@ public sealed record OrderCloseToStornoRequest(
 
 
 /// <summary>
-///   hu: Rendelés zárása sztornó bizonylatként válasz
+///   hu: Rendelés zárása visszáru bizonylatként - válasz
 ///   <br />
-///   en: Closing an order as a storno document response
+///   en: Closing an order as a return document - response
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -120,7 +120,7 @@ public sealed record OrderCloseToStornoRequest(
 ///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToStornoResponse(
+public sealed record CloseReturnResponse(
   string RequestId,
   int ResultCode,
   string? DocumentId = null,

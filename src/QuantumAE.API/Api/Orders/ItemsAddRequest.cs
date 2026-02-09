@@ -1,12 +1,13 @@
 using JetBrains.Annotations;
+using QuantumAE.Models;
 using QuantumAE.Validation;
 
 namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: Rendelés nyitási kérés
+///   hu: Egy tétel hozzáadása a rendeléshez
 ///   <br />
-///   en: Order opening request
+///   en: Add an item to the order
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -18,21 +19,29 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Unique identifier of the order
 /// </param>
+/// <param name="Item">
+///   hu: Hozzáadandó tétel adatai
+///   <br />
+///   en: Data of the item to be added
+/// </param>
 [PublicAPI]
-public sealed record OrderOpenRequest(
+public sealed record ItemsAddRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
 
   [property: Required]
   [property: NotEmptyString]
-  string OrderId
+  string OrderId,
+
+  [property: Required]
+  TOrderItem Item
 ) : IOrderRequest;
 
 /// <summary>
-///   hu: Rendelés nyitási válasz
+///   hu: Tétel hozzáadás válasz
 ///   <br />
-///   en: Order opening response
+///   en: Item addition response
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -50,4 +59,4 @@ public sealed record OrderOpenRequest(
 ///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public sealed record OrderOpenResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;
+public sealed record ItemsAddResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;

@@ -1,3 +1,4 @@
+
 using JetBrains.Annotations;
 using QuantumAE.Models;
 using QuantumAE.Validation;
@@ -5,9 +6,9 @@ using QuantumAE.Validation;
 namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: Rendelés zárása számlaként
+///   hu: Rendelés zárása göngyölegjegyként
 ///   <br />
-///   en: Close order as invoice
+///   en: Order close as empties receipt
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -18,11 +19,6 @@ namespace QuantumAE.Api.Orders;
 ///   hu: A lezárandó rendelés egyedi azonosítója az Adóügyi Egységben
 ///   <br />
 ///   en: Unique identifier of the order to be closed in the Tax Unit
-/// </param>
-/// <param name="Customer">
-///   hu: Vevő adatai (kötelező számlánál, min. VatStatus)
-///   <br />
-///   en: Customer data (required for invoices, min. VatStatus)
 /// </param>
 /// <param name="Pay">
 ///   hu: Fizetés adatai (opcionális, alapért.: készpénz = végösszeg)
@@ -35,9 +31,9 @@ namespace QuantumAE.Api.Orders;
 ///   en: Document identifier
 /// </param>
 /// <param name="CloseMethod">
-///   hu: Zárás módja (opcionális, alapért.: Print)
+///   hu: Zárás módja
 ///   <br />
-///   en: Close method (optional, default: Print)
+///   en: Close method
 /// </param>
 /// <param name="DocumentGeneral">
 ///   hu: Dokumentum általános adatai
@@ -55,7 +51,7 @@ namespace QuantumAE.Api.Orders;
 ///   en: Number of retraction lines
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToInvoiceRequest(
+public sealed record CloseEmptiesRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -63,9 +59,6 @@ public sealed record OrderCloseToInvoiceRequest(
   [property: Required]
   [property: NotEmptyString]
   string OrderId,
-
-  [property: Required]
-  TCustomer Customer,
 
   TPayment? Pay = null,
   string? DocumentId = null,
@@ -79,9 +72,9 @@ public sealed record OrderCloseToInvoiceRequest(
 
 
 /// <summary>
-///   hu: Rendelés zárása számlaként válasz
+///   hu: Rendelés zárása göngyölegjegyként válasz
 ///   <br />
-///   en: Close order as invoice response
+///   en: Order close as empties receipt response
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -114,7 +107,7 @@ public sealed record OrderCloseToInvoiceRequest(
 ///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToInvoiceResponse(
+public sealed record CloseEmptiesResponse(
   string RequestId,
   int ResultCode,
   string? DocumentId = null,

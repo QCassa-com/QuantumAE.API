@@ -39,7 +39,7 @@ namespace QuantumAE.Api.Documents;
 ///   en: Number of items to skip (for pagination)
 /// </param>
 [PublicAPI]
-public sealed record ListDocumentsRequest(
+public sealed record ListRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -86,7 +86,7 @@ public sealed record ListDocumentsRequest(
 ///   en: Error message (on error)
 /// </param>
 [PublicAPI]
-public sealed record ListDocumentsResponse(
+public sealed record ListResponse(
   string RequestId,
   int ResultCode,
   IReadOnlyList<TDocumentSummaryDto> Documents,

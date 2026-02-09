@@ -30,7 +30,7 @@ namespace QuantumAE.Api.Orders;
 ///   en: Data to update (only specified fields will be updated)
 /// </param>
 [PublicAPI]
-public sealed record OrderItemUpdateRequest(
+public sealed record ItemsUpdateRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -68,7 +68,7 @@ public sealed record OrderItemUpdateRequest(
 ///   en: Error message (optional)
 /// </param>
 [PublicAPI]
-public sealed record OrderItemUpdateResponse(
+public sealed record ItemsUpdateResponse(
   string RequestId,
   int ResultCode,
   string? ErrorMessage = null

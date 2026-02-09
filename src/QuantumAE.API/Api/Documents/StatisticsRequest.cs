@@ -24,7 +24,7 @@ namespace QuantumAE.Api.Documents;
 ///   en: End date (ISO 8601, required)
 /// </param>
 [PublicAPI]
-public sealed record DocumentStatisticsRequest(
+public sealed record StatisticsRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -64,7 +64,7 @@ public sealed record DocumentStatisticsRequest(
 ///   en: Error message (on error)
 /// </param>
 [PublicAPI]
-public sealed record DocumentStatisticsResponse(
+public sealed record StatisticsResponse(
   string RequestId,
   int ResultCode,
   TDocumentStatisticsDto? Statistics = null,

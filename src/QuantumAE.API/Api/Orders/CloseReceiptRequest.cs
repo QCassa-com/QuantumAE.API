@@ -1,4 +1,3 @@
-
 using JetBrains.Annotations;
 using QuantumAE.Models;
 using QuantumAE.Validation;
@@ -6,9 +5,9 @@ using QuantumAE.Validation;
 namespace QuantumAE.Api.Orders;
 
 /// <summary>
-///   hu: Rendelés zárása összesítő bizonylatként
+///   hu: Rendelés zárása nyugtaként
 ///   <br />
-///   en: Closing an order as a summary document
+///   en: Closing order as receipt
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -20,18 +19,13 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Unique identifier of the order to be closed in the Tax Unit
 /// </param>
-/// <param name="NonFiscalRows">
-///   hu: Nemfiskális (információs) sorok
-///   <br />
-///   en: Non-fiscal (informational) rows
-/// </param>
 /// <param name="DocumentId">
 ///   hu: Bizonylat azonosító
 ///   <br />
 ///   en: Document identifier
 /// </param>
 /// <param name="CloseMethod">
-///   hu: Zárás módja
+///   hu: Zárási módja
 ///   <br />
 ///   en: Close method
 /// </param>
@@ -40,8 +34,28 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Document general info
 /// </param>
+/// <param name="Pay">
+///   hu: Fizetés adatai
+///   <br />
+///   en: Payment info
+/// </param>
+/// <param name="Cut">
+///   hu: Vágás jelzése
+///   <br />
+///   en: Indication of cutting
+/// </param>
+/// <param name="Retraction">
+///   hu: Visszahúzás sorok száma
+///   <br />
+///   en: Number of retraction lines
+/// </param>
+/// <param name="ReceiptType">
+///   hu: Nyugta típusa (ha van)
+///   <br />
+///   en: Receipt type (if any)
+/// </param>
 [PublicAPI]
-public sealed record OrderCloseToSummaryRequest(
+public sealed record CloseReceiptRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -50,16 +64,23 @@ public sealed record OrderCloseToSummaryRequest(
   [property: NotEmptyString]
   string OrderId,
 
-  TNonFiscalRows? NonFiscalRows = null,
-  string? DocumentId = null,
-  TCloseMethod? CloseMethod = null,
-  TDocumentGeneral? DocumentGeneral = null
+  string? DocumentId,
+  TCloseMethod? CloseMethod,
+  TDocumentGeneral? DocumentGeneral,
+  TPayment? Pay,
+  bool? Cut,
+
+  [property: Range(0, 100)]
+  int? Retraction,
+
+  TReceiptType? ReceiptType
 ) : IOrderRequest;
 
+
 /// <summary>
-///   hu: Rendelés zárása összesítő bizonylatként válasz
+///   hu: Rendelés zárása nyugtaként válasz
 ///   <br />
-///   en: Closing an order as a summary document response
+///   en: Closing order as receipt response
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés egyedi azonosítója
@@ -87,12 +108,12 @@ public sealed record OrderCloseToSummaryRequest(
 ///   en: True if document was saved offline (NAV unreachable)
 /// </param>
 /// <param name="ErrorMessage">
-///   hu: Hibaüzenet (ha hiba történt)
+///   hu: Hibaüzenet (hiba esetén)
 ///   <br />
-///   en: Error message (if error occurred)
+///   en: Error message (on error)
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToSummaryResponse(
+public sealed record CloseReceiptResponse(
   string RequestId,
   int ResultCode,
   string? DocumentId = null,

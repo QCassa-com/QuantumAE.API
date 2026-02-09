@@ -135,11 +135,11 @@ public sealed class TQuantumAeApiClient : IDisposable
 
   #region Order API..
 
-  public async Task<OrderOpenResponse> OpenAsync(OrderOpenRequest ARequest, CancellationToken ct = default)
-    => await PostAsync<OrderOpenRequest, OrderOpenResponse>("/orders/open", ARequest, ct).ConfigureAwait(false);
+  public async Task<OpenResponse> OpenAsync(OpenRequest ARequest, CancellationToken ct = default)
+    => await PostAsync<OpenRequest, OpenResponse>("/orders/open", ARequest, ct).ConfigureAwait(false);
 
-  public async Task<OrderItemsAddResponse> ItemAddAsync(OrderItemsAddRequest ARequest, CancellationToken ct = default)
-    => await PostAsync<OrderItemsAddRequest, OrderItemsAddResponse>("/orders/items", ARequest, ct).ConfigureAwait(false);
+  public async Task<ItemsAddResponse> ItemAddAsync(ItemsAddRequest ARequest, CancellationToken ct = default)
+    => await PostAsync<ItemsAddRequest, ItemsAddResponse>("/orders/items", ARequest, ct).ConfigureAwait(false);
 
   #endregion
 
@@ -149,12 +149,12 @@ public sealed class TQuantumAeApiClient : IDisposable
   {
     try
     {
-      return await GetAsync<TDeviceInfo>("/device/", ct).ConfigureAwait(false);
+      return await GetAsync<TDeviceInfo>("/device/getDeviceInfo", ct).ConfigureAwait(false);
     }
     catch
     {
       // Fallback to an alternative endpoint if available
-      return await GetAsync<TDeviceInfo>("/device/info", ct).ConfigureAwait(false);
+      return await GetAsync<TDeviceInfo>("/device/getDeviceInfo", ct).ConfigureAwait(false);
     }
   }
 

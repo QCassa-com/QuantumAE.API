@@ -29,7 +29,7 @@ namespace QuantumAE.Api.Orders;
 ///   en: Reason for storno (optional)
 /// </param>
 [PublicAPI]
-public sealed record OrderItemStornoRequest(
+public sealed record ItemsStornoRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
@@ -72,7 +72,7 @@ public sealed record OrderItemStornoRequest(
 ///   en: Error message (optional)
 /// </param>
 [PublicAPI]
-public sealed record OrderItemStornoResponse(
+public sealed record ItemsStornoResponse(
   string RequestId,
   int ResultCode,
   int? StornoLineNumber = null,
