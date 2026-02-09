@@ -3,13 +3,16 @@ using QuantumAE.Validation;
 
 namespace QuantumAE.Api.NavI;
 
-
 /// <summary>
 ///   hu: Regisztrációs státusz lekérdezés kérés
 ///   <br />
 ///   en: Registration status query request
 /// </summary>
-/// <param name="RequestId"></param>
+/// <param name="RequestId">
+///   hu: Kérés egyedi azonosítója.
+///   <br />
+///   en: Unique identifier of the request.
+/// </param>
 [PublicAPI]
 public sealed record GetRegistrationStatusRequest(
   [property: Required]

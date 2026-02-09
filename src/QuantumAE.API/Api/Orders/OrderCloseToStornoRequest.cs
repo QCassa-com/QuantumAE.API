@@ -19,6 +19,26 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Unique identifier of the order to be closed in the Tax Unit
 /// </param>
+/// <param name="StornoInfo">
+///   hu: Sztornó adatai (kötelező)
+///   <br />
+///   en: Storno information (required)
+/// </param>
+/// <param name="Customer">
+///   hu: Vevő adatai (opcionális)
+///   <br />
+///   en: Customer data (optional)
+/// </param>
+/// <param name="Pay">
+///   hu: Fizetés adatai (opcionális, alapért.: készpénz = végösszeg)
+///   <br />
+///   en: Payment info (optional, default: cash = total)
+/// </param>
+/// <param name="DocumentId">
+///   hu: Bizonylat azonosító
+///   <br />
+///   en: Document identifier
+/// </param>
 /// <param name="CloseMethod">
 ///   hu: Zárás módja
 ///   <br />
@@ -28,21 +48,6 @@ namespace QuantumAE.Api.Orders;
 ///   hu: Dokumentum általános adatai
 ///   <br />
 ///   en: Document general info
-/// </param>
-/// <param name="Pay">
-///   hu: Fizetés adatai
-///   <br />
-///   en: Payment info
-/// </param>
-/// <param name="Customer">
-///   hu: Vevő adatai
-///   <br />
-///   en: Customer data
-/// </param>
-/// <param name="StornoInfo">
-///   hu: Sztornó adatai
-///   <br />
-///   en: Storno information
 /// </param>
 /// <param name="Cut">
 ///   hu: Vágás jelzése
@@ -54,41 +59,28 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Number of retraction lines
 /// </param>
-/// <param name="ResultCode">
-///   hu: Eredménykód (0 = sikeres)
-///   <br />
-///   en: Result code (0 = success)
-/// </param>
-/// <param name="DocumentId">
-///   hu: Bizonylat azonosító
-///   <br />
-///   en: Document identifier
-/// </param>
 [PublicAPI]
 public sealed record OrderCloseToStornoRequest(
   [property: Required]
   [property: NotEmptyString]
   string RequestId,
 
-  int ResultCode,
-
   [property: Required]
   [property: NotEmptyString]
   string OrderId,
 
-  string DocumentId,
-  TCloseMethod CloseMethod,
-  TDocumentGeneral DocumentGeneral,
-  TPay Pay,
-  TCustomer Customer,
-
   [property: Required]
   TStornoInfo StornoInfo,
 
-  bool Cut,
+  TCustomer? Customer = null,
+  TPayment? Pay = null,
+  string? DocumentId = null,
+  TCloseMethod? CloseMethod = null,
+  TDocumentGeneral? DocumentGeneral = null,
+  bool? Cut = null,
 
   [property: Range(0, 100)]
-  int Retraction
+  int? Retraction = null
 ) : IOrderRequest;
 
 
@@ -107,10 +99,32 @@ public sealed record OrderCloseToStornoRequest(
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
+/// <param name="DocumentId">
+///   hu: A generált bizonylat azonosítója (sikeres feldolgozás esetén)
+///   <br />
+///   en: Generated document ID (on successful processing)
+/// </param>
+/// <param name="SentToNav">
+///   hu: Igaz, ha a bizonylat sikeresen el lett küldve a NAV-nak
+///   <br />
+///   en: True if document was successfully sent to NAV
+/// </param>
+/// <param name="SavedOffline">
+///   hu: Igaz, ha a bizonylat offline mentésre került (NAV nem elérhető)
+///   <br />
+///   en: True if document was saved offline (NAV unreachable)
+/// </param>
 /// <param name="ErrorMessage">
 ///   hu: Hibaüzenet (ha hiba történt)
 ///   <br />
 ///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToStornoResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;
+public sealed record OrderCloseToStornoResponse(
+  string RequestId,
+  int ResultCode,
+  string? DocumentId = null,
+  bool SentToNav = false,
+  bool SavedOffline = false,
+  string? ErrorMessage = null
+) : IOrderResponse;

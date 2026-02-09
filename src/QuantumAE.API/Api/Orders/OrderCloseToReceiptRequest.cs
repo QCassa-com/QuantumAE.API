@@ -67,7 +67,7 @@ public sealed record OrderCloseToReceiptRequest(
   string? DocumentId,
   TCloseMethod? CloseMethod,
   TDocumentGeneral? DocumentGeneral,
-  TPay? Pay,
+  TPayment? Pay,
   bool? Cut,
 
   [property: Range(0, 100)]

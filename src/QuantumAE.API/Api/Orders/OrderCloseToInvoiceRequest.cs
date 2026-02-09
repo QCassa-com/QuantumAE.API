@@ -14,15 +14,20 @@ namespace QuantumAE.Api.Orders;
 ///   <br />
 ///   en: Unique identifier of the request
 /// </param>
-/// <param name="ResultCode">
-///   hu: Eredménykód (0 = sikeres)
-///   <br />
-///   en: Result code (0 = success)
-/// </param>
 /// <param name="OrderId">
 ///   hu: A lezárandó rendelés egyedi azonosítója az Adóügyi Egységben
 ///   <br />
 ///   en: Unique identifier of the order to be closed in the Tax Unit
+/// </param>
+/// <param name="Customer">
+///   hu: Vevő adatai (kötelező számlánál, min. VatStatus)
+///   <br />
+///   en: Customer data (required for invoices, min. VatStatus)
+/// </param>
+/// <param name="Pay">
+///   hu: Fizetés adatai (opcionális, alapért.: készpénz = végösszeg)
+///   <br />
+///   en: Payment info (optional, default: cash = total)
 /// </param>
 /// <param name="DocumentId">
 ///   hu: Bizonylat azonosító
@@ -30,24 +35,14 @@ namespace QuantumAE.Api.Orders;
 ///   en: Document identifier
 /// </param>
 /// <param name="CloseMethod">
-///   hu: Zárás módja
+///   hu: Zárás módja (opcionális, alapért.: Print)
 ///   <br />
-///   en: Close method
+///   en: Close method (optional, default: Print)
 /// </param>
 /// <param name="DocumentGeneral">
 ///   hu: Dokumentum általános adatai
 ///   <br />
 ///   en: Document general info
-/// </param>
-/// <param name="Pay">
-///   hu: Fizetés adatai
-///   <br />
-///   en: Payment info
-/// </param>
-/// <param name="Customer">
-///   hu: Vevő adatai
-///   <br />
-///   en: Customer data
 /// </param>
 /// <param name="Cut">
 ///   hu: Vágás jelzése
@@ -65,24 +60,21 @@ public sealed record OrderCloseToInvoiceRequest(
   [property: NotEmptyString]
   string RequestId,
 
-  int ResultCode,
-
   [property: Required]
   [property: NotEmptyString]
   string OrderId,
 
-  string DocumentId,
-  TCloseMethod CloseMethod,
-  TDocumentGeneral DocumentGeneral,
-  TPay Pay,
-
   [property: Required]
   TCustomer Customer,
 
-  bool Cut,
+  TPayment? Pay = null,
+  string? DocumentId = null,
+  TCloseMethod? CloseMethod = null,
+  TDocumentGeneral? DocumentGeneral = null,
+  bool? Cut = null,
 
   [property: Range(0, 100)]
-  int Retraction
+  int? Retraction = null
 ) : IOrderRequest;
 
 
@@ -101,10 +93,32 @@ public sealed record OrderCloseToInvoiceRequest(
 ///   <br />
 ///   en: Result code (0 = success), otherwise error code
 /// </param>
+/// <param name="DocumentId">
+///   hu: A generált bizonylat azonosítója (sikeres feldolgozás esetén)
+///   <br />
+///   en: Generated document ID (on successful processing)
+/// </param>
+/// <param name="SentToNav">
+///   hu: Igaz, ha a bizonylat sikeresen el lett küldve a NAV-nak
+///   <br />
+///   en: True if document was successfully sent to NAV
+/// </param>
+/// <param name="SavedOffline">
+///   hu: Igaz, ha a bizonylat offline mentésre került (NAV nem elérhető)
+///   <br />
+///   en: True if document was saved offline (NAV unreachable)
+/// </param>
 /// <param name="ErrorMessage">
 ///   hu: Hibaüzenet (ha hiba történt)
 ///   <br />
 ///   en: Error message (if error occurred)
 /// </param>
 [PublicAPI]
-public sealed record OrderCloseToInvoiceResponse(string RequestId, int ResultCode, string? ErrorMessage = null) : IOrderResponse;
+public sealed record OrderCloseToInvoiceResponse(
+  string RequestId,
+  int ResultCode,
+  string? DocumentId = null,
+  bool SentToNav = false,
+  bool SavedOffline = false,
+  string? ErrorMessage = null
+) : IOrderResponse;
