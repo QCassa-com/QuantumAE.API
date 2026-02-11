@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="0" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Required validation -->
+  <data name="Required" xml:space="preserve">
+    <value>Das Feld '{0}' ist erforderlich.</value>
+  </data>
+  <data name="Required_Simple" xml:space="preserve">
+    <value>{0} ist erforderlich.</value>
+  </data>
+
+  <!-- RequiredIfEmpty validation -->
+  <data name="RequiredIfEmpty" xml:space="preserve">
+    <value>Entweder '{0}' oder '{1}' muss angegeben werden.</value>
+  </data>
+
+  <!-- NotEmptyString validation -->
+  <data name="NotEmptyString" xml:space="preserve">
+    <value>Das Feld '{0}' darf nicht leer sein oder nur Leerzeichen enthalten.</value>
+  </data>
+
+  <!-- PositiveDecimal validation -->
+  <data name="PositiveDecimal" xml:space="preserve">
+    <value>Das Feld '{0}' muss positiv sein.</value>
+  </data>
+  <data name="PositiveDecimal_AllowZero" xml:space="preserve">
+    <value>Das Feld '{0}' muss null oder positiv sein.</value>
+  </data>
+  <data name="PositiveDecimal_NotNumeric" xml:space="preserve">
+    <value>Das Feld '{0}' muss ein numerischer Typ sein.</value>
+  </data>
+
+  <!-- StringLength validation -->
+  <data name="StringLength_Max" xml:space="preserve">
+    <value>Das Feld '{0}' darf maximal {1} Zeichen lang sein.</value>
+  </data>
+  <data name="StringLength_Range" xml:space="preserve">
+    <value>Das Feld '{0}' muss zwischen {1} und {2} Zeichen lang sein.</value>
+  </data>
+
+  <!-- Range validation -->
+  <data name="Range" xml:space="preserve">
+    <value>Das Feld '{0}' muss zwischen {1} und {2} liegen.</value>
+  </data>
+
+  <!-- Min validation -->
+  <data name="Min" xml:space="preserve">
+    <value>Das Feld '{0}' muss mindestens {1} betragen.</value>
+  </data>
+  <data name="Min_Exclusive" xml:space="preserve">
+    <value>Das Feld '{0}' muss größer als {1} sein.</value>
+  </data>
+
+  <!-- Max validation -->
+  <data name="Max" xml:space="preserve">
+    <value>Das Feld '{0}' darf höchstens {1} betragen.</value>
+  </data>
+  <data name="Max_Exclusive" xml:space="preserve">
+    <value>Das Feld '{0}' muss kleiner als {1} sein.</value>
+  </data>
+
+  <!-- ApNumber validation -->
+  <data name="ApNumber" xml:space="preserve">
+    <value>Das Feld '{0}' muss eine gültige AP-Nummer sein (9 Zeichen: erster Buchstabe B-X, gefolgt von 8 Ziffern).</value>
+  </data>
+
+  <!-- Order-specific messages -->
+  <data name="Order_RequestIdRequired" xml:space="preserve">
+    <value>RequestId ist erforderlich.</value>
+  </data>
+  <data name="Order_OrderIdRequired" xml:space="preserve">
+    <value>OrderId ist erforderlich.</value>
+  </data>
+  <data name="Order_ItemRequired" xml:space="preserve">
+    <value>Artikel ist erforderlich.</value>
+  </data>
+  <data name="Order_CustomerRequired" xml:space="preserve">
+    <value>Kundendaten sind für die Rechnung erforderlich.</value>
+  </data>
+  <data name="Order_ReturnInfoRequired" xml:space="preserve">
+    <value>Retoureninformation ist für den Retourenbeleg erforderlich.</value>
+  </data>
+  <data name="Order_StornoInfoRequired" xml:space="preserve">
+    <value>Stornoinformation ist für den Stornobeleg erforderlich.</value>
+  </data>
+  <data name="Order_FuelCardCloseRequired" xml:space="preserve">
+    <value>FuelCardClose ist für den Tankkarten-Beleg erforderlich.</value>
+  </data>
+  <data name="Order_NameOrBarcodeRequired" xml:space="preserve">
+    <value>Entweder Name oder Barcode muss angegeben werden.</value>
+  </data>
+
+</root>

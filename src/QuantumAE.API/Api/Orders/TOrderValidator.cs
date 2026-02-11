@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using QuantumAE.Models;
 using QuantumAE.Validation;
+using QuantumAE.Validation.Resources;
 
 namespace QuantumAE.Api.Orders;
 
@@ -74,12 +75,12 @@ public static partial class TOrderValidator
 
     if (!string.IsNullOrEmpty(AOrderItem.VatCode) && !ValidVatCodes.Contains(AOrderItem.VatCode))
     {
-      errors.Add($"Invalid VatCode '{AOrderItem.VatCode}'. Valid codes: {string.Join(", ", ValidVatCodes)}");
+      errors.Add(string.Format(ApiResponseMessages.Order_InvalidVatCode, AOrderItem.VatCode, string.Join(", ", ValidVatCodes)));
     }
 
     if (!string.IsNullOrEmpty(AOrderItem.Barcode) && !EanRegex().IsMatch(AOrderItem.Barcode))
     {
-      errors.Add($"Invalid Barcode '{AOrderItem.Barcode}'. Must be EAN-8 (8 digits) or EAN-13 (13 digits).");
+      errors.Add(string.Format(ApiResponseMessages.Order_InvalidBarcode, AOrderItem.Barcode));
     }
 
     AErrors = errors;
@@ -113,7 +114,7 @@ public static partial class TOrderValidator
 
     if (hasOldMode && hasNewMode)
     {
-      errors.Add("Cannot mix old (Amount/Method) and new (Cash/Card/Szep/Afr) payment modes.");
+      errors.Add(ApiResponseMessages.Order_PaymentModeMix);
     }
 
     if (hasNewMode)
@@ -122,7 +123,7 @@ public static partial class TOrderValidator
 
       if (totalPaid < (int)Math.Floor(ATotalAmount))
       {
-        errors.Add($"Total paid ({totalPaid}) is less than order total ({ATotalAmount}).");
+        errors.Add(string.Format(ApiResponseMessages.Order_InsufficientPayment, totalPaid, ATotalAmount));
       }
     }
 
@@ -141,21 +142,21 @@ public static partial class TOrderValidator
 
     if (string.IsNullOrEmpty(ACustomer.VatStatus))
     {
-      errors.Add("VatStatus is required for invoices (DOMESTIC, OTHER, or PRIVATE_PERSON).");
+      errors.Add(ApiResponseMessages.Order_VatStatusRequired);
     }
     else if (!ValidVatStatuses.Contains(ACustomer.VatStatus))
     {
-      errors.Add($"Invalid VatStatus '{ACustomer.VatStatus}'. Valid values: {string.Join(", ", ValidVatStatuses)}");
+      errors.Add(string.Format(ApiResponseMessages.Order_InvalidVatStatus, ACustomer.VatStatus, string.Join(", ", ValidVatStatuses)));
     }
     else if (ACustomer.VatStatus == "DOMESTIC" && string.IsNullOrEmpty(ACustomer.TaxNumber))
     {
-      errors.Add("TaxNumber is required when VatStatus is DOMESTIC.");
+      errors.Add(ApiResponseMessages.Order_TaxNumberRequired);
     }
     else if (ACustomer.VatStatus == "OTHER" &&
              string.IsNullOrEmpty(ACustomer.CommunityVatNumber) &&
              string.IsNullOrEmpty(ACustomer.ThirdStateTaxId))
     {
-      errors.Add("CommunityVatNumber or ThirdStateTaxId is required when VatStatus is OTHER.");
+      errors.Add(ApiResponseMessages.Order_CommunityOrThirdStateTaxIdRequired);
     }
 
     AErrors = errors;

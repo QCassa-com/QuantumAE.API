@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="0" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Field type validation -->
+  <data name="FieldMustBeString" xml:space="preserve">
+    <value>The field '{0}' must be a string.</value>
+    <comment>Used in NotEmptyStringAttribute and ApNumberAttribute when field is not a string type</comment>
+  </data>
+
+  <!-- Order validation: VatCode -->
+  <data name="Order_InvalidVatCode" xml:space="preserve">
+    <value>Invalid VatCode '{0}'. Valid codes: {1}</value>
+    <comment>TOrderValidator - when VatCode is not in the allowed set. {0} = VatCode value, {1} = valid codes list</comment>
+  </data>
+
+  <!-- Order validation: Barcode -->
+  <data name="Order_InvalidBarcode" xml:space="preserve">
+    <value>Invalid Barcode '{0}'. Must be EAN-8 (8 digits) or EAN-13 (13 digits).</value>
+    <comment>TOrderValidator - when Barcode format is invalid. {0} = Barcode value</comment>
+  </data>
+
+  <!-- Payment validation -->
+  <data name="Order_PaymentModeMix" xml:space="preserve">
+    <value>Cannot mix old (Amount/Method) and new (Cash/Card/Szep/Afr) payment modes.</value>
+    <comment>TOrderValidator - when both old and new payment modes are used</comment>
+  </data>
+  <data name="Order_InsufficientPayment" xml:space="preserve">
+    <value>Total paid ({0}) is less than order total ({1}).</value>
+    <comment>TOrderValidator - when total paid is less than order total. {0} = total paid, {1} = order total</comment>
+  </data>
+
+  <!-- Customer/Invoice validation -->
+  <data name="Order_VatStatusRequired" xml:space="preserve">
+    <value>VatStatus is required for invoices (DOMESTIC, OTHER, or PRIVATE_PERSON).</value>
+    <comment>TOrderValidator - when VatStatus is missing for invoice</comment>
+  </data>
+  <data name="Order_InvalidVatStatus" xml:space="preserve">
+    <value>Invalid VatStatus '{0}'. Valid values: {1}</value>
+    <comment>TOrderValidator - when VatStatus is not valid. {0} = VatStatus value, {1} = valid values list</comment>
+  </data>
+  <data name="Order_TaxNumberRequired" xml:space="preserve">
+    <value>TaxNumber is required when VatStatus is DOMESTIC.</value>
+    <comment>TOrderValidator - when TaxNumber is missing for DOMESTIC VatStatus</comment>
+  </data>
+  <data name="Order_CommunityOrThirdStateTaxIdRequired" xml:space="preserve">
+    <value>CommunityVatNumber or ThirdStateTaxId is required when VatStatus is OTHER.</value>
+    <comment>TOrderValidator - when both CommunityVatNumber and ThirdStateTaxId are missing for OTHER VatStatus</comment>
+  </data>
+
+</root>

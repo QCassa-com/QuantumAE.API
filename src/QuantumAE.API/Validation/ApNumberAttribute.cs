@@ -30,7 +30,7 @@ public sealed partial class ApNumberAttribute : ValidationAttribute
     if (AValue is not string stringValue)
     {
       return new ValidationResult(
-        $"The field '{AValidationContext.DisplayName}' must be a string.",
+        string.Format(ApiResponseMessages.FieldMustBeString, AValidationContext.DisplayName),
         [AValidationContext.MemberName!]);
     }
 

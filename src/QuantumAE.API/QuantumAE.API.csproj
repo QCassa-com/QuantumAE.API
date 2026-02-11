@@ -63,10 +63,28 @@
       <EmbeddedResource Update="Validation\Resources\ValidationMessages.hu.resx">
         <DependentUpon>ValidationMessages.resx</DependentUpon>
       </EmbeddedResource>
+      <EmbeddedResource Update="Validation\Resources\ValidationMessages.de.resx">
+        <DependentUpon>ValidationMessages.resx</DependentUpon>
+      </EmbeddedResource>
       <Compile Update="Validation\Resources\ValidationMessages.Designer.cs">
         <AutoGen>True</AutoGen>
         <DesignTime>True</DesignTime>
         <DependentUpon>ValidationMessages.resx</DependentUpon>
+      </Compile>
+      <EmbeddedResource Update="Validation\Resources\ApiResponseMessages.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ApiResponseMessages.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Validation\Resources\ApiResponseMessages.hu.resx">
+        <DependentUpon>ApiResponseMessages.resx</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Validation\Resources\ApiResponseMessages.de.resx">
+        <DependentUpon>ApiResponseMessages.resx</DependentUpon>
+      </EmbeddedResource>
+      <Compile Update="Validation\Resources\ApiResponseMessages.Designer.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>ApiResponseMessages.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 
