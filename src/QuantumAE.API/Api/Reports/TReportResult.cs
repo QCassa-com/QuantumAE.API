@@ -32,6 +32,27 @@ public enum TReportResult
   DayAlreadyOpen,
 
   /// <summary>
+  ///   hu: Az adóügyi nap nincs megnyitva.
+  ///   <br />
+  ///   en: The fiscal day has not been opened yet.
+  /// </summary>
+  DayNotOpen,
+
+  /// <summary>
+  ///   hu: Érvénytelen pénzmozgás jogcím.
+  ///   <br />
+  ///   en: Invalid payment title.
+  /// </summary>
+  InvalidPaymentTitle,
+
+  /// <summary>
+  ///   hu: Üres fizetőeszköz lista.
+  ///   <br />
+  ///   en: At least one payment instrument is required.
+  /// </summary>
+  EmptyInstruments,
+
+  /// <summary>
   ///   hu: Belső hiba.
   ///   <br />
   ///   en: Internal error.
