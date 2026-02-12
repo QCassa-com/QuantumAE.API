@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 using QuantumAE.Api.Payments;
 using QuantumAE.Validation;
 
-namespace QuantumAE.Api.Reports;
+namespace QuantumAE.Api.Documents;
 
 /// <summary>
 ///   hu: Pénzmozgás bizonylat (PMN) kérés. Pénzbefizetés, pénzkivét és fizetőeszköz csere
@@ -53,7 +53,7 @@ public sealed record CashFlowRequest(
   long? ChangeAmount = null,
 
   int? RoundingDifference = null
-) : IReportRequest;
+) : IDocumentRequest;
 
 /// <summary>
 ///   hu: Pénzmozgás bizonylat válasz.
@@ -70,10 +70,10 @@ public sealed record CashFlowRequest(
 ///   <br />
 ///   en: Result code (0 = success, non-zero = error).
 /// </param>
-/// <param name="ReportNumber">
-///   hu: Jelentés száma, ha sikeres volt a művelet.
+/// <param name="DocNumber">
+///   hu: Dokumentumszám NAV-I formátumban (pl. PM-B12345678/00000257/0142/00001).
 ///   <br />
-///   en: Report number if the operation was successful.
+///   en: Document number in NAV-I format (e.g., PM-B12345678/00000257/0142/00001).
 /// </param>
 /// <param name="SentToNav">
 ///   hu: Jelzi, hogy a jelentés elküldésre került-e a NAV felé.
@@ -89,7 +89,7 @@ public sealed record CashFlowRequest(
 public sealed record CashFlowResponse(
   string RequestId,
   int ResultCode,
-  string? ReportNumber = null,
+  string? DocNumber = null,
   bool SentToNav = false,
   string? ErrorMessage = null
-) : IReportResponse;
+) : IDocumentResponse;

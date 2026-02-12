@@ -1,14 +1,14 @@
 using JetBrains.Annotations;
 
-namespace QuantumAE.Api.Reports;
+namespace QuantumAE.Api.Documents;
 
 /// <summary>
-///   hu: Riport műveletek eredménykódjai.
+///   hu: Bizonylat műveletek eredménykódjai.
 ///   <br />
-///   en: Report operation result codes.
+///   en: Document operation result codes.
 /// </summary>
 [PublicAPI]
-public enum TReportResult
+public enum TDocumentResult
 {
   /// <summary>
   ///   hu: Sikeres művelet.
@@ -51,6 +51,13 @@ public enum TReportResult
   ///   en: At least one payment instrument is required.
   /// </summary>
   EmptyInstruments,
+
+  /// <summary>
+  ///   hu: Az adóügyi nap már le lett zárva.
+  ///   <br />
+  ///   en: The taxation day has already been closed.
+  /// </summary>
+  DayAlreadyClosed,
 
   /// <summary>
   ///   hu: Belső hiba.
