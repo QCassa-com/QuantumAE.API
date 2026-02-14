@@ -46,6 +46,7 @@
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" />
+        <PackageReference Include="MessagePack" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
         <PackageReference Include="xunit" />
         <PackageReference Include="xunit.runner.visualstudio" />
@@ -57,6 +58,7 @@
 
     <ItemGroup>
         <ProjectReference Include="../../src/QuantumAE.API/QuantumAE.API.csproj" />
+        <ProjectReference Include="../../src/QuantumAE.API.Client/QuantumAE.API.Client.csproj" />
     </ItemGroup>
 
 </Project>

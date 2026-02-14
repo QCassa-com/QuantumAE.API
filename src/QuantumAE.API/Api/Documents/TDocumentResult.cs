@@ -46,6 +46,13 @@ public enum TDocumentResult
   InvalidPaymentTitle,
 
   /// <summary>
+  ///   hu: Nem létező vagy letiltott pénzmozgás típus.
+  ///   <br />
+  ///   en: Cash flow type not found or disabled.
+  /// </summary>
+  InvalidCashFlowType,
+
+  /// <summary>
   ///   hu: Üres fizetőeszköz lista.
   ///   <br />
   ///   en: At least one payment instrument is required.

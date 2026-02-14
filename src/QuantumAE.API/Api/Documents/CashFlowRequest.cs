@@ -6,22 +6,22 @@ namespace QuantumAE.Api.Documents;
 
 /// <summary>
 ///   hu: Pénzmozgás bizonylat (PMN) kérés. Pénzbefizetés, pénzkivét és fizetőeszköz csere
-///   egyaránt ezt a kérést használja. A PaymentTitleCode határozza meg a jogcímet.
-///   Érvényes kódok: 01-08 (befizetés), 31-42 (kifizetés), 60 (fizetőeszköz csere).
+///   egyaránt ezt a kérést használja. A CashFlowTypeId határozza meg a jogcímet
+///   (a CashFlowTypes törzsadat tábla Id mezőjére hivatkozik).
 ///   <br />
 ///   en: Cash flow document (PMN) request. Used for cash-in, cash-out and instrument exchange.
-///   The PaymentTitleCode determines the payment title.
-///   Valid codes: 01-08 (payment in), 31-42 (payment out), 60 (instrument exchange).
+///   The CashFlowTypeId determines the payment title
+///   (references the Id field of the CashFlowTypes master data table).
 /// </summary>
 /// <param name="RequestId">
 ///   hu: Kérés azonosítója.
 ///   <br />
 ///   en: Request identifier.
 /// </param>
-/// <param name="PaymentTitleCode">
-///   hu: Pénzmozgás jogcím kódja (01-08 befizetés, 31-42 kifizetés, 60 csere).
+/// <param name="CashFlowTypeId">
+///   hu: Pénzmozgás jogcím típus azonosítója (a CashFlowTypes tábla Id mezője).
 ///   <br />
-///   en: Cash payment title code (01-08 payment in, 31-42 payment out, 60 exchange).
+///   en: Cash flow type identifier (references CashFlowTypes table Id field).
 /// </param>
 /// <param name="Instruments">
 ///   hu: Fizetőeszközök listája.
@@ -45,7 +45,7 @@ public sealed record CashFlowRequest(
   string RequestId,
 
   [property: Required]
-  int PaymentTitleCode,
+  int CashFlowTypeId,
 
   [property: Required]
   List<TInstrumentItem> Instruments,

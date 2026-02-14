@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using MessagePack;
 using MessagePack.Resolvers;
+using QuantumAE.Api.NavI;
 using QuantumAE.Api.Sessions;
 using QuantumAE.Api.Orders;
 using QuantumAE.Models;
@@ -140,6 +141,244 @@ public sealed class TQuantumAeApiClient : IDisposable
 
   public async Task<ItemsAddResponse> ItemAddAsync(ItemsAddRequest ARequest, CancellationToken ct = default)
     => await PostAsync<ItemsAddRequest, ItemsAddResponse>("/orders/items", ARequest, ct).ConfigureAwait(false);
+
+  #endregion
+
+  #region NAV-I API..
+
+  /// <summary>
+  ///   hu: Adószám lekérdezése a NAV-tól.
+  ///   <br />
+  ///   en: Query taxpayer data from NAV.
+  /// </summary>
+  /// <param name="ARequest">
+  ///   hu: Adószám lekérdezési kérés.
+  ///   <br />
+  ///   en: Taxpayer query request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<QueryTaxpayerResponse> QueryTaxpayerAsync(QueryTaxpayerRequest ARequest, CancellationToken ct = default)
+    => await PostAsync<QueryTaxpayerRequest, QueryTaxpayerResponse>("/navi/queryTaxpayer", ARequest, ct).ConfigureAwait(false);
+
+  /// <summary>
+  ///   hu: Üzemeltetés befejezése - a pénztárgép üzemen kívül helyezése a NAV-I felé.
+  ///   <br />
+  ///   en: End of operation - deactivate the cash register towards NAV-I.
+  /// </summary>
+  /// <param name="ARequest">
+  ///   hu: Üzemeltetés befejezési kérés.
+  ///   <br />
+  ///   en: End of operation request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<EndOfOperationResponse> EndOfOperationAsync(EndOfOperationRequest ARequest, CancellationToken ct = default)
+    => await PostAsync<EndOfOperationRequest, EndOfOperationResponse>("/navi/endOfOperation", ARequest, ct).ConfigureAwait(false);
+
+  /// <summary>
+  ///   hu: Üzemeltetés folytatása - a pénztárgép üzembe visszahelyezése a NAV-I felé.
+  ///   <br />
+  ///   en: Continue operation - reactivate the cash register towards NAV-I.
+  /// </summary>
+  /// <param name="ARequest">
+  ///   hu: Üzemeltetés folytatási kérés.
+  ///   <br />
+  ///   en: Continue operation request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<ContinueOperationResponse> ContinueOperationAsync(ContinueOperationRequest ARequest, CancellationToken ct = default)
+    => await PostAsync<ContinueOperationRequest, ContinueOperationResponse>("/navi/continueOperation", ARequest, ct).ConfigureAwait(false);
+
+  /// <summary>
+  ///   hu: Tulajdonosváltás (átszemélyesítés) - az e-pénztárgép új üzemeltetőhöz történő átadása.
+  ///   <br />
+  ///   en: Owner change (re-personalization) - transfer the e-cash register to a new operator.
+  /// </summary>
+  /// <param name="ARequest">
+  ///   hu: Tulajdonosváltási kérés.
+  ///   <br />
+  ///   en: Owner change request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<OwnerChangeResponse> OwnerChangeAsync(OwnerChangeRequest ARequest, CancellationToken ct = default)
+    => await PostAsync<OwnerChangeRequest, OwnerChangeResponse>("/navi/ownerChange", ARequest, ct).ConfigureAwait(false);
+
+  /// <summary>
+  ///   hu: Terméktörzs lekérdezés - termék keresése vonalkód/EAN kód alapján a NAV DTSZK adatbázisából.
+  ///   <br />
+  ///   en: Product catalog query - search product by barcode/EAN code from NAV DTSZK database.
+  /// </summary>
+  /// <param name="ARequest">
+  ///   hu: Terméktörzs lekérdezési kérés.
+  ///   <br />
+  ///   en: Product catalog query request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<DownloadProductListResponse> DownloadProductListAsync(DownloadProductListRequest ARequest, CancellationToken ct = default)
+    => await PostAsync<DownloadProductListRequest, DownloadProductListResponse>("/navi/downloadProductList", ARequest, ct).ConfigureAwait(false);
+
+  /// <summary>
+  ///   hu: CommMgr heartbeat kényszerítése - azonnali CommMgr kommunikáció indítása diagnosztikai célra.
+  ///   <br />
+  ///   en: Force CommMgr heartbeat - trigger immediate CommMgr communication for diagnostics.
+  /// </summary>
+  /// <param name="ARequest">
+  ///   hu: CommMgr kényszerítési kérés.
+  ///   <br />
+  ///   en: Force CommMgr request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<ForceCommMgrResponse> ForceCommMgrAsync(ForceCommMgrRequest ARequest, CancellationToken ct = default)
+    => await PostAsync<ForceCommMgrRequest, ForceCommMgrResponse>("/navi/forceCommMgr", ARequest, ct).ConfigureAwait(false);
+
+  /// <summary>
+  ///   hu: Offline szinkronizálás kényszerítése - azonnali offline szinkronizálás indítása diagnosztikai célra.
+  ///   <br />
+  ///   en: Force offline sync - trigger immediate offline synchronization for diagnostics.
+  /// </summary>
+  /// <param name="ARequest">
+  ///   hu: Offline szinkronizálás kényszerítési kérés.
+  ///   <br />
+  ///   en: Force offline sync request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<ForceOfflineSyncResponse> ForceOfflineSyncAsync(ForceOfflineSyncRequest ARequest, CancellationToken ct = default)
+    => await PostAsync<ForceOfflineSyncRequest, ForceOfflineSyncResponse>("/navi/forceOfflineSync", ARequest, ct).ConfigureAwait(false);
+
+  /// <summary>
+  ///   hu: Tanúsítvány ellenőrzés kényszerítése - azonnali tanúsítvány ellenőrzés indítása diagnosztikai célra.
+  ///   <br />
+  ///   en: Force certificate check - trigger immediate certificate check for diagnostics.
+  /// </summary>
+  /// <param name="ARequest">
+  ///   hu: Tanúsítvány ellenőrzés kényszerítési kérés.
+  ///   <br />
+  ///   en: Force certificate check request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<ForceCertificateCheckResponse> ForceCertificateCheckAsync(ForceCertificateCheckRequest ARequest, CancellationToken ct = default)
+    => await PostAsync<ForceCertificateCheckRequest, ForceCertificateCheckResponse>("/navi/forceCertificateCheck", ARequest, ct).ConfigureAwait(false);
+
+  /// <summary>
+  ///   hu: Blokkolási állapot lekérdezése - a pénztárgép aktuális blokkolási állapotának lekérdezése.
+  ///   <br />
+  ///   en: Get block state - query the current block state of the cash register.
+  /// </summary>
+  /// <param name="ARequestId">
+  ///   hu: Kérés egyedi azonosítója.
+  ///   <br />
+  ///   en: Unique identifier of the request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<GetBlockStateResponse> GetBlockStateAsync(string ARequestId, CancellationToken ct = default)
+    => await GetAsync<GetBlockStateResponse>($"/navi/blockState/{ARequestId}", ct).ConfigureAwait(false);
+
+  /// <summary>
+  ///   hu: NAV adatok lekérdezése - aktuális ÁFA kulcsok és üzemeltetői adatok lekérdezése.
+  ///   <br />
+  ///   en: Get NAV data - query current VAT rates and operator site data.
+  /// </summary>
+  /// <param name="ARequestId">
+  ///   hu: Kérés egyedi azonosítója.
+  ///   <br />
+  ///   en: Unique identifier of the request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<GetNavDataResponse> GetNavDataAsync(string ARequestId, CancellationToken ct = default)
+    => await GetAsync<GetNavDataResponse>($"/navi/navData/{ARequestId}", ct).ConfigureAwait(false);
+
+  /// <summary>
+  ///   hu: Tanúsítvány állapot lekérdezése - a tanúsítványok lejárati idejének lekérdezése.
+  ///   <br />
+  ///   en: Get certificate status - query the expiry dates of certificates.
+  /// </summary>
+  /// <param name="ARequestId">
+  ///   hu: Kérés egyedi azonosítója.
+  ///   <br />
+  ///   en: Unique identifier of the request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<GetCertificateStatusResponse> GetCertificateStatusAsync(string ARequestId, CancellationToken ct = default)
+    => await GetAsync<GetCertificateStatusResponse>($"/navi/certificateStatus/{ARequestId}", ct).ConfigureAwait(false);
+
+  /// <summary>
+  ///   hu: Technikai tájékoztatás lekérdezése - a NAV-tól kapott legutóbbi technikai üzenet lekérdezése.
+  ///   <br />
+  ///   en: Get technical info - query the latest technical message received from NAV.
+  /// </summary>
+  /// <param name="ARequestId">
+  ///   hu: Kérés egyedi azonosítója.
+  ///   <br />
+  ///   en: Unique identifier of the request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<GetTechnicalInfoResponse> GetTechnicalInfoAsync(string ARequestId, CancellationToken ct = default)
+    => await GetAsync<GetTechnicalInfoResponse>($"/navi/technicalInfo/{ARequestId}", ct).ConfigureAwait(false);
+
+  /// <summary>
+  ///   hu: Szoftverfrissítés állapot lekérdezése - a firmware frissítés állapotának és határidejének lekérdezése.
+  ///   <br />
+  ///   en: Get software update status - query the firmware update status and installation deadline.
+  /// </summary>
+  /// <param name="ARequestId">
+  ///   hu: Kérés egyedi azonosítója.
+  ///   <br />
+  ///   en: Unique identifier of the request.
+  /// </param>
+  /// <param name="ct">
+  ///   hu: Lemondási token.
+  ///   <br />
+  ///   en: Cancellation token.
+  /// </param>
+  public async Task<GetSoftwareUpdateStatusResponse> GetSoftwareUpdateStatusAsync(string ARequestId, CancellationToken ct = default)
+    => await GetAsync<GetSoftwareUpdateStatusResponse>($"/navi/softwareUpdateStatus/{ARequestId}", ct).ConfigureAwait(false);
 
   #endregion
 
